@@ -1,4 +1,21 @@
 version: '3.0'
-services:
+
 networks:
   dev-services:
+    driver: bridge
+
+volumes:
+  postgres_data:
+
+services:
+  postgres:
+    container_name: tasklist_postgres
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=tasklist_db
