@@ -1,5 +1,5 @@
 /*
- *  @(#)TasklistUseCase.java
+ *  @(#)TasklistAdapter.java
  *
  *  Copyright (c) J-Tech Solucoes em Informatica.
  *  All Rights Reserved.
@@ -10,27 +10,28 @@
  *  license agreement you entered into with J-Tech.
  *
  */
-package br.com.jtech.tasklist.application.core.usecases;
-
+package br.com.jtech.tasklist.adapters.database;
 
 import br.com.jtech.tasklist.application.core.entities.TaskList;
-import br.com.jtech.tasklist.application.ports.input.CreateTaskListInputGateway;
 import br.com.jtech.tasklist.application.ports.output.CreateTaskListOutputGateway;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 /**
- * class TasklistUseCase
+ * class TasklistAdapter
  * <p>
  * user angelo.vicente
  */
-public class CreateTaskListUseCase implements CreateTaskListInputGateway {
+@Component
+@RequiredArgsConstructor
+public class CreateTaskListAdapter implements CreateTaskListOutputGateway {
 
-  private final CreateTaskListOutputGateway createTasklistOutputGateway;
+  // private final TasklistRepository repository;
 
-  public CreateTaskListUseCase(CreateTaskListOutputGateway createTasklistOutputGateway) {
-    this.createTasklistOutputGateway = createTasklistOutputGateway;
-  }
-
+  @Override
   public TaskList create(TaskList tasklist) {
-    return createTasklistOutputGateway.create(tasklist);
+    // return this.repository.save(tasklist);
+    return tasklist;
   }
+
 }

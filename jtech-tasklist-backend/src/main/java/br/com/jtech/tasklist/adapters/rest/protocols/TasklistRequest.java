@@ -10,7 +10,7 @@
  *  license agreement you entered into with J-Tech.
  *
  */
-package br.com.jtech.tasklist.adapters.input.protocols;
+package br.com.jtech.tasklist.adapters.rest.protocols;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -22,17 +22,17 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
-* class TasklistRequest 
-* 
-* user angelo.vicente 
-*/
+ * class TasklistRequest
+ * <p>
+ * user angelo.vicente
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TasklistRequest implements Serializable {
-    private String id;
+  private String id;
 
-    private List<TasklistRequest> requests;
+  private List<TasklistRequest> requests;
 }
