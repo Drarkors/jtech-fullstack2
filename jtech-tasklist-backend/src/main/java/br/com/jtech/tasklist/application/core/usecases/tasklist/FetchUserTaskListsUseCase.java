@@ -1,0 +1,34 @@
+package br.com.jtech.tasklist.application.core.usecases.tasklist;
+
+import br.com.jtech.tasklist.application.core.entities.TaskList;
+import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListUserNotFoundException;
+import br.com.jtech.tasklist.application.ports.input.FetchUserTaskListsInput;
+import br.com.jtech.tasklist.application.ports.output.FetchUserTaskListsOutputGateway;
+
+import java.util.Set;
+import java.util.UUID;
+
+/**
+ * class FetchTaskListsUseCase
+ * <p>
+ * user rafael.zanetti
+ */
+public class FetchUserTaskListsUseCase implements FetchUserTaskListsInput {
+
+  private final FetchUserTaskListsOutputGateway outputGateway;
+
+  public FetchUserTaskListsUseCase(FetchUserTaskListsOutputGateway outputGateway) {
+    this.outputGateway = outputGateway;
+  }
+
+  public Set<TaskList> fetchUserTaskLists(UUID userId) {
+    var userExits = this.outputGateway.findUserById(userId)
+      .isPresent();
+
+    if (!userExits) {
+      throw new TaskListUserNotFoundException();
+    }
+    
+    return this.outputGateway.fetchUserTaskLists(userId);
+  }
+}

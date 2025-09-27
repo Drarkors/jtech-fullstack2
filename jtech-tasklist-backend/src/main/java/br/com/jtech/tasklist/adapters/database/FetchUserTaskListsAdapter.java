@@ -1,0 +1,41 @@
+package br.com.jtech.tasklist.adapters.database;
+
+import br.com.jtech.tasklist.adapters.database.repositories.TaskListRepository;
+import br.com.jtech.tasklist.adapters.database.repositories.UserRepository;
+import br.com.jtech.tasklist.application.core.entities.TaskList;
+import br.com.jtech.tasklist.application.core.entities.User;
+import br.com.jtech.tasklist.application.ports.output.FetchUserTaskListsOutputGateway;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+/**
+ * class CreateTaskListAdapter
+ * <p>
+ * user rafael.zanetti
+ */
+@Component
+@RequiredArgsConstructor
+public class FetchUserTaskListsAdapter implements FetchUserTaskListsOutputGateway {
+
+  private final TaskListRepository repository;
+  private final UserRepository userRepository;
+
+  @Override
+  public Optional<User> findUserById(UUID id) {
+    var entity = this.userRepository.findById(id);
+
+    return entity.map(User::of);
+  }
+
+  @Override
+  public Set<TaskList> fetchUserTaskLists(UUID userId) {
+    var entities = this.repository.findAllByUserId(userId);
+
+    return entities.stream().map(TaskList::of).collect(Collectors.toSet());
+  }
+}

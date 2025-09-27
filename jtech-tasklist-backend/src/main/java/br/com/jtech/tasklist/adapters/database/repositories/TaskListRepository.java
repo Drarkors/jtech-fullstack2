@@ -16,6 +16,7 @@ import br.com.jtech.tasklist.adapters.database.repositories.models.TaskListModel
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -26,4 +27,6 @@ import java.util.UUID;
 @Repository
 public interface TaskListRepository extends JpaRepository<TaskListModel, UUID> {
 
+  Set<TaskListModel> findAllByUserId(UUID userId);
+  
 }
