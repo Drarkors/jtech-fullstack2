@@ -12,8 +12,8 @@
  */
 package br.com.jtech.tasklist.application.core.entities;
 
-import br.com.jtech.tasklist.adapters.database.repositories.entities.TaskListEntity;
-import br.com.jtech.tasklist.adapters.rest.protocols.TasklistRequest;
+import br.com.jtech.tasklist.adapters.database.repositories.models.TaskListModel;
+import br.com.jtech.tasklist.adapters.rest.protocols.TaskListRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,7 +28,7 @@ import java.util.UUID;
 /**
  * class Tasklist
  * <p>
- * user angelo.vicente
+ * user rafael.zanetti
  */
 @Getter
 @Setter
@@ -37,27 +37,37 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskList {
-  private String id;
 
-  public static List<TaskList> of(List<TaskListEntity> entities) {
+  private String id;
+  private String name;
+  private String description;
+  private Integer order;
+
+  public static List<TaskList> of(List<TaskListModel> entities) {
     return entities.stream().map(TaskList::of).toList();
   }
 
-  public static TaskList of(TaskListEntity entity) {
+  public static TaskList of(TaskListModel entity) {
     return TaskList.builder()
       .id(entity.getId().toString())
+      .name(entity.getName())
+      .description(entity.getDescription())
+      .order(entity.getOrder())
       .build();
   }
 
-  public static TaskList of(TasklistRequest request) {
+  public static TaskList of(TaskListRequest request) {
     return TaskList.builder()
       .id(request.getId())
       .build();
   }
 
-  public TaskListEntity toEntity() {
-    return TaskListEntity.builder()
-      .id(UUID.fromString(getId()))
+  public TaskListModel toModel() {
+    return TaskListModel.builder()
+      .id(getId() != null ? UUID.fromString(getId()) : null)
+      .name(getName())
+      .description(getDescription())
+      .order(getOrder())
       .build();
   }
 }
