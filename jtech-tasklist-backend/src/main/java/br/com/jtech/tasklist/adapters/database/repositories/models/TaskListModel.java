@@ -12,10 +12,13 @@
  */
 package br.com.jtech.tasklist.adapters.database.repositories.models;
 
+import br.com.jtech.tasklist.application.core.entities.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
@@ -25,8 +28,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -47,6 +53,9 @@ public class TaskListModel {
   @UuidGenerator
   private UUID id;
 
+  @Column(name = "user_id", nullable = false)
+  private UUID userId;
+
   @Column(nullable = false, length = 100)
   @Size(max = 100, min = 1)
   private String name;
@@ -60,5 +69,19 @@ public class TaskListModel {
   @Max(Integer.MAX_VALUE)
   @ColumnDefault(value = "0")
   private Integer order;
+
+  @Column
+  @ColumnDefault(value = "false")
+  private boolean isDeleted;
+
+  @CreationTimestamp
+  private LocalDateTime createdAt;
+
+  @UpdateTimestamp
+  private LocalDateTime updatedAt;
+
+  @ManyToOne
+  @JoinColumn(name = "user_id", updatable = false, insertable = false)
+  private User user;
 
 }

@@ -39,6 +39,7 @@ import java.util.UUID;
 public class TaskList {
 
   private String id;
+  private String userId;
   private String name;
   private String description;
   private Integer order;
@@ -50,6 +51,7 @@ public class TaskList {
   public static TaskList of(TaskListModel entity) {
     return TaskList.builder()
       .id(entity.getId().toString())
+      .userId(entity.getUserId().toString())
       .name(entity.getName())
       .description(entity.getDescription())
       .order(entity.getOrder())
@@ -65,6 +67,7 @@ public class TaskList {
   public TaskListModel toModel() {
     return TaskListModel.builder()
       .id(getId() != null ? UUID.fromString(getId()) : null)
+      .userId(UUID.fromString(getUserId()))
       .name(getName())
       .description(getDescription())
       .order(getOrder())

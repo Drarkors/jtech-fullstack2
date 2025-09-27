@@ -18,7 +18,7 @@ import br.com.jtech.tasklist.application.ports.input.CreateTaskListInputGateway;
 import br.com.jtech.tasklist.application.ports.output.CreateTaskListOutputGateway;
 
 /**
- * class TasklistUseCase
+ * class CreateTaskListUseCase
  * <p>
  * user rafael.zanetti
  */

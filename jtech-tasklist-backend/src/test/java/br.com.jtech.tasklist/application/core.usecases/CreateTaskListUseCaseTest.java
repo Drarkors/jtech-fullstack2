@@ -41,7 +41,9 @@ public class CreateTaskListUseCaseTest {
   @DisplayName("Should create task list")
   void shouldCreateTaskList() {
     var id = GenId.newId();
+
     var list = TaskList.builder()
+      .userId(GenId.newId())
       .name("List")
       .description("Description")
       .order(0)
@@ -55,6 +57,7 @@ public class CreateTaskListUseCaseTest {
     var result = this.useCase.create(list);
 
     assertEquals(list.getId(), result.getId());
+    assertEquals(list.getUserId(), result.getUserId());
     assertEquals(list.getName(), result.getName());
     assertEquals(list.getDescription(), result.getDescription());
     assertEquals(list.getOrder(), result.getOrder());
