@@ -24,15 +24,15 @@ import java.util.List;
 /**
  * class TasklistRequest
  * <p>
- * user angelo.vicente
+ * user rafael.zanetti
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TasklistRequest implements Serializable {
+public class TaskListRequest implements Serializable {
   private String id;
 
-  private List<TasklistRequest> requests;
+  private List<TaskListRequest> requests;
 }

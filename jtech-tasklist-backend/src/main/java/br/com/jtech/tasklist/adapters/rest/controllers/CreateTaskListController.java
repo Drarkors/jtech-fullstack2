@@ -13,7 +13,7 @@
  */
 package br.com.jtech.tasklist.adapters.rest.controllers;
 
-import br.com.jtech.tasklist.adapters.rest.protocols.TasklistRequest;
+import br.com.jtech.tasklist.adapters.rest.protocols.TaskListRequest;
 import br.com.jtech.tasklist.application.ports.input.CreateTaskListInputGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ import static br.com.jtech.tasklist.application.core.entities.TaskList.of;
 /**
  * class TaskListController
  * <p>
- * user angelo.vicente
+ * user rafael.zanetti
  */
 @RestController
 @RequestMapping("/api/v1/task-lists")
@@ -37,7 +37,7 @@ public class CreateTaskListController {
   private final CreateTaskListInputGateway createTasklistInputGateway;
 
   @PostMapping
-  public ResponseEntity<Void> create(@RequestBody TasklistRequest request) {
+  public ResponseEntity<Void> create(@RequestBody TaskListRequest request) {
     createTasklistInputGateway.create(of(request));
     return ResponseEntity.noContent().build();
   }

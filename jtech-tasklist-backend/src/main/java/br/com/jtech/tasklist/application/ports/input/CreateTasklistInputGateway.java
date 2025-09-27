@@ -17,10 +17,10 @@ import br.com.jtech.tasklist.application.core.entities.TaskList;
 /**
  * class TaskListInputGateway
  * <p>
- * user angelo.vicente
+ * user rafael.zanetti
  */
 public interface CreateTaskListInputGateway {
 
-  TaskList create(TaskList tasklist);
+  TaskList create(TaskList taskList);
 
 }

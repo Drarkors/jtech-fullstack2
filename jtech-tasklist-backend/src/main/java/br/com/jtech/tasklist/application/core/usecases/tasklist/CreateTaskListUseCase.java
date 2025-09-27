@@ -10,7 +10,7 @@
  *  license agreement you entered into with J-Tech.
  *
  */
-package br.com.jtech.tasklist.application.core.usecases;
+package br.com.jtech.tasklist.application.core.usecases.tasklist;
 
 
 import br.com.jtech.tasklist.application.core.entities.TaskList;
@@ -20,7 +20,7 @@ import br.com.jtech.tasklist.application.ports.output.CreateTaskListOutputGatewa
 /**
  * class TasklistUseCase
  * <p>
- * user angelo.vicente
+ * user rafael.zanetti
  */
 public class CreateTaskListUseCase implements CreateTaskListInputGateway {
 
@@ -33,4 +33,5 @@ public class CreateTaskListUseCase implements CreateTaskListInputGateway {
   public TaskList create(TaskList tasklist) {
     return createTasklistOutputGateway.create(tasklist);
   }
+
 }

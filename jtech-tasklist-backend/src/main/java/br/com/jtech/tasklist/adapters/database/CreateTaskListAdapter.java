@@ -12,26 +12,28 @@
  */
 package br.com.jtech.tasklist.adapters.database;
 
+import br.com.jtech.tasklist.adapters.database.repositories.TaskListRepository;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.ports.output.CreateTaskListOutputGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
- * class TasklistAdapter
+ * class CreateTaskListAdapter
  * <p>
- * user angelo.vicente
+ * user rafael.zanetti
  */
 @Component
 @RequiredArgsConstructor
 public class CreateTaskListAdapter implements CreateTaskListOutputGateway {
 
-  // private final TasklistRepository repository;
+  private final TaskListRepository repository;
 
   @Override
   public TaskList create(TaskList tasklist) {
-    // return this.repository.save(tasklist);
-    return tasklist;
+    var entity = this.repository.save(tasklist.toModel());
+
+    return TaskList.of(entity);
   }
 
 }

@@ -13,14 +13,14 @@
 package br.com.jtech.tasklist.config.usecases;
 
 import br.com.jtech.tasklist.adapters.database.CreateTaskListAdapter;
-import br.com.jtech.tasklist.application.core.usecases.CreateTaskListUseCase;
+import br.com.jtech.tasklist.application.core.usecases.tasklist.CreateTaskListUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * class TasklistUseCaseConfig
  * <p>
- * user angelo.vicente
+ * user rafael.zanetti
  */
 @Configuration
 public class CreateTaskListUseCaseConfig {
