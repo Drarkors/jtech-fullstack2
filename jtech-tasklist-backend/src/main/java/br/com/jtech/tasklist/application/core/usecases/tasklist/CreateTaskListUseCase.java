@@ -14,8 +14,11 @@ package br.com.jtech.tasklist.application.core.usecases.tasklist;
 
 
 import br.com.jtech.tasklist.application.core.entities.TaskList;
+import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListUserNotFoundException;
 import br.com.jtech.tasklist.application.ports.input.CreateTaskListInputGateway;
 import br.com.jtech.tasklist.application.ports.output.CreateTaskListOutputGateway;
+
+import java.util.UUID;
 
 /**
  * class CreateTaskListUseCase
@@ -24,14 +27,21 @@ import br.com.jtech.tasklist.application.ports.output.CreateTaskListOutputGatewa
  */
 public class CreateTaskListUseCase implements CreateTaskListInputGateway {
 
-  private final CreateTaskListOutputGateway createTasklistOutputGateway;
+  private final CreateTaskListOutputGateway outputGateway;
 
-  public CreateTaskListUseCase(CreateTaskListOutputGateway createTasklistOutputGateway) {
-    this.createTasklistOutputGateway = createTasklistOutputGateway;
+  public CreateTaskListUseCase(CreateTaskListOutputGateway outputGateway) {
+    this.outputGateway = outputGateway;
   }
 
   public TaskList create(TaskList tasklist) {
-    return createTasklistOutputGateway.create(tasklist);
+    var userExits = this.outputGateway.findUserById(UUID.fromString(tasklist.getUserId()))
+      .isPresent();
+
+    if (!userExits) {
+      throw new TaskListUserNotFoundException();
+    }
+
+    return outputGateway.create(tasklist);
   }
 
 }

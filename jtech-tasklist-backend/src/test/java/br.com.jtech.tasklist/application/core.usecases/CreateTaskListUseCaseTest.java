@@ -2,9 +2,12 @@ package br.com.jtech.tasklist.application.core.usecases;
 
 import br.com.jtech.tasklist.adapters.database.CreateTaskListAdapter;
 import br.com.jtech.tasklist.adapters.database.repositories.TaskListRepository;
+import br.com.jtech.tasklist.adapters.database.repositories.UserRepository;
 import br.com.jtech.tasklist.adapters.database.repositories.models.TaskListModel;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
+import br.com.jtech.tasklist.application.core.entities.User;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.CreateTaskListUseCase;
+import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListUserNotFoundException;
 import br.com.jtech.tasklist.config.infra.utils.GenId;
 import br.com.jtech.tasklist.config.usecases.CreateTaskListUseCaseConfig;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +18,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -26,6 +33,9 @@ public class CreateTaskListUseCaseTest {
 
   @Mock
   TaskListRepository repository;
+
+  @Mock
+  UserRepository userRepository;
 
   @InjectMocks
   CreateTaskListAdapter adapter;
@@ -38,19 +48,22 @@ public class CreateTaskListUseCaseTest {
   }
 
   @Test
-  @DisplayName("Should create task list")
+  @DisplayName("Should create a task list")
   void shouldCreateTaskList() {
     var id = GenId.newId();
 
+    var user = User.builder().id(GenId.newId()).build();
     var list = TaskList.builder()
-      .userId(GenId.newId())
+      .userId(user.getId())
       .name("List")
       .description("Description")
       .order(0)
       .build();
 
+    when(this.userRepository.findById(any(UUID.class)))
+      .thenReturn(Optional.of(user.toModel()));
     when(this.repository.save(any(TaskListModel.class))).thenAnswer((_p) -> {
-      list.setId(id.toString());
+      list.setId(id);
       return list.toModel();
     });
 
@@ -63,5 +76,23 @@ public class CreateTaskListUseCaseTest {
     assertEquals(list.getOrder(), result.getOrder());
 
     verify(this.repository, times(1)).save(any(TaskListModel.class));
+  }
+
+  @Test
+  @DisplayName("Shoudl not create a task list and throw an TaskListUserNotFoundException")
+  void shouldThrowTaskListUserNotFoundException() {
+    var list = TaskList.builder()
+      .userId(GenId.newId())
+      .name("List")
+      .description("Description")
+      .order(0)
+      .build();
+
+    when(this.userRepository.findById(any(UUID.class)))
+      .thenReturn(Optional.empty());
+
+    assertThrows(TaskListUserNotFoundException.class, () -> this.useCase.create(list));
+
+    verify(this.repository, times(0)).save(any(TaskListModel.class));
   }
 }
