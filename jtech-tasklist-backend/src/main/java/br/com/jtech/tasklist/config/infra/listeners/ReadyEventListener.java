@@ -29,7 +29,7 @@ import org.springframework.context.event.EventListener;
 @Configuration
 @RequiredArgsConstructor
 public class ReadyEventListener {
-    
+
   @Value("${application.environment:LOCAL}")
   private String environment;
 

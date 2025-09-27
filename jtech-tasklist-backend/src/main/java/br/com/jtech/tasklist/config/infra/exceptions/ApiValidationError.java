@@ -19,26 +19,26 @@ import lombok.EqualsAndHashCode;
 /**
  * An implementation from {@link ApiSubError} to show errors by jakarta validation.
  *
- * @author angelo.vicente
+ * @author rafael.zanetti
  * class ApiValidationError
  **/
 @Data
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 public class ApiValidationError extends ApiSubError {
-    private String object;
-    private String field;
-    private Object rejectedValue;
-    private String message;
+  private String object;
+  private String field;
+  private Object rejectedValue;
+  private String message;
 
-    /**
-     * Constructor with field and message error.
-     *
-     * @param object  Field error.
-     * @param message Custom message on annotation.
-     */
-    ApiValidationError(String object, String message) {
-        this.object = object;
-        this.message = message;
-    }
+  /**
+   * Constructor with field and message error.
+   *
+   * @param object  Field error.
+   * @param message Custom message on annotation.
+   */
+  ApiValidationError(String object, String message) {
+    this.object = object;
+    this.message = message;
+  }
 }
