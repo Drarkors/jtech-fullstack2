@@ -17,19 +17,17 @@ import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListUserNotFoundException;
 import br.com.jtech.tasklist.application.ports.input.tasklist.CreateTaskListInputGateway;
 import br.com.jtech.tasklist.application.ports.output.tasklist.CreateTaskListOutputGateway;
+import lombok.RequiredArgsConstructor;
 
 /**
  * class CreateTaskListUseCase
  * <p>
  * user rafael.zanetti
  */
+@RequiredArgsConstructor
 public class CreateTaskListUseCase implements CreateTaskListInputGateway {
 
   private final CreateTaskListOutputGateway outputGateway;
-
-  public CreateTaskListUseCase(CreateTaskListOutputGateway outputGateway) {
-    this.outputGateway = outputGateway;
-  }
 
   public TaskList create(TaskList tasklist) {
     var userExits = this.outputGateway.findUserById(tasklist.getUserId())

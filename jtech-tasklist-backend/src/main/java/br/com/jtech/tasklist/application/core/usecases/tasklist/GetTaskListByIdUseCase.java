@@ -5,14 +5,12 @@ import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskL
 import br.com.jtech.tasklist.application.ports.input.tasklist.GetTaskListByIdInputGateway;
 import br.com.jtech.tasklist.application.ports.output.tasklist.GetTaskListByIdOutputGateway;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class GetTaskListByIdUseCase implements GetTaskListByIdInputGateway {
 
   private final GetTaskListByIdOutputGateway outputGateway;
-
-  public GetTaskListByIdUseCase(GetTaskListByIdOutputGateway outputGateway) {
-    this.outputGateway = outputGateway;
-  }
 
   public TaskList getById(String taskListId, String userId) {
     var optional = this.outputGateway.getTaskListById(taskListId);

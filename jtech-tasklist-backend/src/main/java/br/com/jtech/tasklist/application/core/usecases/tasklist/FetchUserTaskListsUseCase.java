@@ -4,6 +4,7 @@ import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListUserNotFoundException;
 import br.com.jtech.tasklist.application.ports.input.tasklist.FetchUserTaskListsInputGateway;
 import br.com.jtech.tasklist.application.ports.output.tasklist.FetchUserTaskListsOutputGateway;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Set;
 
@@ -12,14 +13,11 @@ import java.util.Set;
  * <p>
  * user rafael.zanetti
  */
+@RequiredArgsConstructor
 public class FetchUserTaskListsUseCase implements FetchUserTaskListsInputGateway {
 
   private final FetchUserTaskListsOutputGateway outputGateway;
-
-  public FetchUserTaskListsUseCase(FetchUserTaskListsOutputGateway outputGateway) {
-    this.outputGateway = outputGateway;
-  }
-
+  
   public Set<TaskList> fetchTaskLists(String userId) {
     var userExits = this.outputGateway.findUserById(userId)
       .isPresent();
