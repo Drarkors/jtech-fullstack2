@@ -10,7 +10,7 @@ import br.com.jtech.tasklist.application.core.entities.User;
 import br.com.jtech.tasklist.application.core.usecases.task.exceptions.TaskAlreadyExistsException;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListNotFoundException;
 import br.com.jtech.tasklist.config.infra.utils.GenId;
-import br.com.jtech.tasklist.config.usecases.CreateTaskUseCaseConfig;
+import br.com.jtech.tasklist.config.usecases.task.CreateTaskUseCaseConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

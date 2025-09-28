@@ -8,7 +8,7 @@ import br.com.jtech.tasklist.application.core.entities.User;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListNotFoundException;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 import br.com.jtech.tasklist.config.infra.utils.GenId;
-import br.com.jtech.tasklist.config.usecases.UpdateTaskListUseCaseConfig;
+import br.com.jtech.tasklist.config.usecases.tasklist.UpdateTaskListUseCaseConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

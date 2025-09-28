@@ -1,4 +1,4 @@
-package br.com.jtech.tasklist.config.usecases;
+package br.com.jtech.tasklist.config.usecases.task;
 
 import br.com.jtech.tasklist.adapters.database.task.CreateTaskAdapter;
 import br.com.jtech.tasklist.application.core.usecases.task.CreateTaskUseCase;

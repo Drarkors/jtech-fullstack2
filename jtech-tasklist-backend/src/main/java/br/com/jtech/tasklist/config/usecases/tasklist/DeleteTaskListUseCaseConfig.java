@@ -1,4 +1,4 @@
-package br.com.jtech.tasklist.config.usecases;
+package br.com.jtech.tasklist.config.usecases.tasklist;
 
 import br.com.jtech.tasklist.adapters.database.tasklist.DeleteTaskListAdapter;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.DeleteTaskListUseCase;

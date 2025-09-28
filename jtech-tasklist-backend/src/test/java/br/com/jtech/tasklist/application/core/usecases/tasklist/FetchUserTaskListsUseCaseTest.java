@@ -7,7 +7,7 @@ import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.entities.User;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListUserNotFoundException;
 import br.com.jtech.tasklist.config.infra.utils.GenId;
-import br.com.jtech.tasklist.config.usecases.FetchUserTaskListsUseCaseConfig;
+import br.com.jtech.tasklist.config.usecases.tasklist.FetchUserTaskListsUseCaseConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
