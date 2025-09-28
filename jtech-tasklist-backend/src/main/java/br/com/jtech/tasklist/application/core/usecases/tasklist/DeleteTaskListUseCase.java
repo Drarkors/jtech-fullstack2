@@ -1,8 +1,8 @@
 package br.com.jtech.tasklist.application.core.usecases.tasklist;
 
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListNotFoundException;
-import br.com.jtech.tasklist.application.ports.input.tasklist.DeleteTaskListUseCaseInputGateway;
-import br.com.jtech.tasklist.application.ports.output.tasklist.DeleteTaskListUseCaseOutputGateway;
+import br.com.jtech.tasklist.application.ports.input.tasklist.DeleteTaskListInputGateway;
+import br.com.jtech.tasklist.application.ports.output.tasklist.DeleteTaskListOutputGateway;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 
@@ -12,9 +12,9 @@ import lombok.RequiredArgsConstructor;
  * user rafael.zanetti
  */
 @RequiredArgsConstructor
-public class DeleteTaskListUseCase implements DeleteTaskListUseCaseInputGateway {
+public class DeleteTaskListUseCase implements DeleteTaskListInputGateway {
 
-  private final DeleteTaskListUseCaseOutputGateway outputGateway;
+  private final DeleteTaskListOutputGateway outputGateway;
 
 
   @Override

@@ -5,7 +5,7 @@ package br.com.jtech.tasklist.application.ports.input.tasklist;
  * <p>
  * user rafael.zanetti
  */
-public interface DeleteTaskListUseCaseInputGateway {
+public interface DeleteTaskListInputGateway {
 
   void delete(String id, String userId);
 

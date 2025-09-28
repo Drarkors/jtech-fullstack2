@@ -4,10 +4,10 @@ import br.com.jtech.tasklist.application.core.entities.TaskList;
 
 import java.util.Optional;
 
-public interface UpdateTaskListUseCaseOutputGateway {
+public interface DeleteTaskListOutputGateway {
 
   Optional<TaskList> findById(String id);
 
-  TaskList update(TaskList taskList);
+  void delete(String id);
 
 }

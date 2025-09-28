@@ -2,15 +2,15 @@ package br.com.jtech.tasklist.application.core.usecases.tasklist;
 
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListNotFoundException;
-import br.com.jtech.tasklist.application.ports.input.tasklist.UpdateTaskListUseCaseInputGateway;
-import br.com.jtech.tasklist.application.ports.output.tasklist.UpdateTaskListUseCaseOutputGateway;
+import br.com.jtech.tasklist.application.ports.input.tasklist.UpdateTaskListInputGateway;
+import br.com.jtech.tasklist.application.ports.output.tasklist.UpdateTaskListOutputGateway;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class UpdateTaskListUseCase implements UpdateTaskListUseCaseInputGateway {
+public class UpdateTaskListUseCase implements UpdateTaskListInputGateway {
 
-  private final UpdateTaskListUseCaseOutputGateway outputGateway;
+  private final UpdateTaskListOutputGateway outputGateway;
 
   public TaskList update(String id, String userId, String name, Integer order) {
     var output = this.outputGateway.findById(id);

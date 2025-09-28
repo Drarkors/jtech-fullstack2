@@ -2,7 +2,7 @@ package br.com.jtech.tasklist.adapters.database.tasklist;
 
 import br.com.jtech.tasklist.adapters.database.repositories.TaskListRepository;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
-import br.com.jtech.tasklist.application.ports.output.tasklist.UpdateTaskListUseCaseOutputGateway;
+import br.com.jtech.tasklist.application.ports.output.tasklist.UpdateTaskListOutputGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ import java.util.UUID;
  */
 @Component
 @RequiredArgsConstructor
-public class UpdateTaskListAdapter implements UpdateTaskListUseCaseOutputGateway {
+public class UpdateTaskListAdapter implements UpdateTaskListOutputGateway {
 
   private final TaskListRepository repository;
 
