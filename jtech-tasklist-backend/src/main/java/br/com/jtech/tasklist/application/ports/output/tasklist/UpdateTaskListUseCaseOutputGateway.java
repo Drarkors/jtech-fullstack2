@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface UpdateTaskListUseCaseOutputGateway {
 
-  Optional<TaskList> getTaskListById(String id);
+  Optional<TaskList> findById(String id);
 
   TaskList update(TaskList taskList);
 

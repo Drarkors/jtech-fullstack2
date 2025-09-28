@@ -14,13 +14,17 @@ package br.com.jtech.tasklist.adapters.database.repositories.models;
 
 import br.com.jtech.tasklist.application.core.entities.Task;
 import br.com.jtech.tasklist.application.core.entities.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
@@ -31,6 +35,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -48,7 +54,13 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "TaskList")
+@Entity(name = "task_list")
+@Table(name = "task_list", indexes = {
+  @Index(columnList = "id"),
+  @Index(name = "deletedIndex", columnList = "id, isDeleted")
+})
+@SQLDelete(sql = "UPDATE task_list SET isDeleted = true WHERE id=?")
+@SQLRestriction("isDeleted = false")
 public class TaskListModel {
 
   @Id
@@ -75,7 +87,7 @@ public class TaskListModel {
 
   @Column
   @ColumnDefault(value = "false")
-  private boolean isDeleted;
+  private Boolean isDeleted;
 
   @CreationTimestamp
   private LocalDateTime createdAt;
@@ -87,8 +99,8 @@ public class TaskListModel {
   @JoinColumn(name = "user_id", updatable = false, insertable = false)
   private User user;
 
-  @OneToMany
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "id", insertable = false, updatable = false)
   private Set<Task> tasks;
-  
+
 }

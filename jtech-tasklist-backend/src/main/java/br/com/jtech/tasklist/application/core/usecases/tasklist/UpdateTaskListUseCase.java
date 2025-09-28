@@ -13,7 +13,7 @@ public class UpdateTaskListUseCase implements UpdateTaskListUseCaseInputGateway 
   private final UpdateTaskListUseCaseOutputGateway outputGateway;
 
   public TaskList update(String id, String userId, String name, Integer order) {
-    var output = this.outputGateway.getTaskListById(id);
+    var output = this.outputGateway.findById(id);
 
     if (output.isEmpty()) {
       throw new TaskListNotFoundException();

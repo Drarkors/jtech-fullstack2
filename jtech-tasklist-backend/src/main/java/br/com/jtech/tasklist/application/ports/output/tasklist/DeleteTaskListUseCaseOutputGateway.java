@@ -4,8 +4,10 @@ import br.com.jtech.tasklist.application.core.entities.TaskList;
 
 import java.util.Optional;
 
-public interface GetTaskListByIdOutputGateway {
+public interface DeleteTaskListUseCaseOutputGateway {
 
   Optional<TaskList> findById(String id);
+
+  void delete(String id);
 
 }

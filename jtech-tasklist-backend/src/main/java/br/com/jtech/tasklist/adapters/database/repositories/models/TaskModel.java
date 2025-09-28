@@ -36,7 +36,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "task")
-@Table(name = "measurement", uniqueConstraints = {
+@Table(name = "task", uniqueConstraints = {
   @UniqueConstraint(name = "unique_task_per_list", columnNames = {"name", "task_list_id"})
 })
 public class TaskModel {

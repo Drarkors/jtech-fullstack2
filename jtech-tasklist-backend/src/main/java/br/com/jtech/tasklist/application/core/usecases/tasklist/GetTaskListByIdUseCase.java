@@ -13,7 +13,7 @@ public class GetTaskListByIdUseCase implements GetTaskListByIdInputGateway {
   private final GetTaskListByIdOutputGateway outputGateway;
 
   public TaskList getById(String taskListId, String userId) {
-    var optional = this.outputGateway.getTaskListById(taskListId);
+    var optional = this.outputGateway.findById(taskListId);
 
     if (optional.isEmpty()) {
       throw new TaskListNotFoundException();
