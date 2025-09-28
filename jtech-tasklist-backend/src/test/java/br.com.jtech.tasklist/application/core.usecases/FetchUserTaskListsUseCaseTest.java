@@ -48,7 +48,7 @@ public class FetchUserTaskListsUseCaseTest {
   }
 
   @Test
-  @DisplayName("Should create a task list")
+  @DisplayName("Should be able to fetch an user's task lists")
   void shouldCreateTaskList() {
     var user = User.builder().id(GenId.newId()).build();
     var list = TaskList.builder()
@@ -64,20 +64,20 @@ public class FetchUserTaskListsUseCaseTest {
     when(this.repository.findAllByUserId(eq(UUID.fromString(user.getId()))))
       .thenReturn(Collections.singleton(list.toModel()));
 
-    var result = this.useCase.fetchTaskLists(UUID.fromString(user.getId()));
+    var result = this.useCase.fetchTaskLists(user.getId());
 
     assertEquals(1, result.size());
     assertTrue(result.contains(list));
   }
 
   @Test
-  @DisplayName("Should create a task list")
+  @DisplayName("Should not be able to fetch task lists if it's user isn't found")
   void shouldThrowTaskListUserNotFoundException() {
     var userId = GenId.newId();
 
     when(this.userRepository.findById(any(UUID.class)))
       .thenReturn(Optional.empty());
 
-    assertThrows(TaskListUserNotFoundException.class, () -> this.useCase.fetchTaskLists(UUID.fromString(userId)));
+    assertThrows(TaskListUserNotFoundException.class, () -> this.useCase.fetchTaskLists(userId));
   }
 }

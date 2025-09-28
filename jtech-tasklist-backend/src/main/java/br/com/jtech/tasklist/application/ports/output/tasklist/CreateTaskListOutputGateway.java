@@ -16,7 +16,6 @@ import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.entities.User;
 
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * class TasklistOutputGateway
@@ -27,6 +26,6 @@ public interface CreateTaskListOutputGateway {
 
   TaskList create(TaskList taskList);
 
-  Optional<User> findUserById(UUID id);
+  Optional<User> findUserById(String id);
 
 }

@@ -6,7 +6,6 @@ import br.com.jtech.tasklist.application.ports.input.tasklist.FetchUserTaskLists
 import br.com.jtech.tasklist.application.ports.output.tasklist.FetchUserTaskListsOutputGateway;
 
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * class FetchTaskListsUseCase
@@ -21,7 +20,7 @@ public class FetchUserTaskListsUseCase implements FetchUserTaskListsInputGateway
     this.outputGateway = outputGateway;
   }
 
-  public Set<TaskList> fetchTaskLists(UUID userId) {
+  public Set<TaskList> fetchTaskLists(String userId) {
     var userExits = this.outputGateway.findUserById(userId)
       .isPresent();
 

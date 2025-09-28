@@ -6,8 +6,6 @@ import br.com.jtech.tasklist.application.ports.input.tasklist.GetTaskListByIdInp
 import br.com.jtech.tasklist.application.ports.output.tasklist.GetTaskListByIdOutputGateway;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 
-import java.util.UUID;
-
 public class GetTaskListByIdUseCase implements GetTaskListByIdInputGateway {
 
   private final GetTaskListByIdOutputGateway outputGateway;
@@ -16,7 +14,7 @@ public class GetTaskListByIdUseCase implements GetTaskListByIdInputGateway {
     this.outputGateway = outputGateway;
   }
 
-  public TaskList getById(UUID taskListId, UUID userId) {
+  public TaskList getById(String taskListId, String userId) {
     var optional = this.outputGateway.getTaskListById(taskListId);
 
     if (optional.isEmpty()) {
@@ -25,7 +23,7 @@ public class GetTaskListByIdUseCase implements GetTaskListByIdInputGateway {
 
     var entity = optional.get();
 
-    if (!entity.getUserId().equals(userId.toString())) {
+    if (!entity.getUserId().equals(userId)) {
       throw new UnauthorizedException();
     }
 

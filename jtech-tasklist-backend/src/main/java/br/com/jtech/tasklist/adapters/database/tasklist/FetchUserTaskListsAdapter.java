@@ -26,15 +26,15 @@ public class FetchUserTaskListsAdapter implements FetchUserTaskListsOutputGatewa
   private final UserRepository userRepository;
 
   @Override
-  public Optional<User> findUserById(UUID id) {
-    var entity = this.userRepository.findById(id);
+  public Optional<User> findUserById(String id) {
+    var entity = this.userRepository.findById(UUID.fromString(id));
 
     return entity.map(User::of);
   }
 
   @Override
-  public Set<TaskList> fetchUserTaskLists(UUID userId) {
-    var entities = this.repository.findAllByUserId(userId);
+  public Set<TaskList> fetchUserTaskLists(String userId) {
+    var entities = this.repository.findAllByUserId(UUID.fromString(userId));
 
     return entities.stream().map(TaskList::of).collect(Collectors.toSet());
   }

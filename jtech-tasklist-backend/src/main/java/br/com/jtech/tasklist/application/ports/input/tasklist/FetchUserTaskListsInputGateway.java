@@ -3,7 +3,6 @@ package br.com.jtech.tasklist.application.ports.input.tasklist;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * class FetchUserTaskListInput
@@ -12,6 +11,6 @@ import java.util.UUID;
  */
 public interface FetchUserTaskListsInputGateway {
 
-  Set<TaskList> fetchTaskLists(UUID userId);
+  Set<TaskList> fetchTaskLists(String userId);
 
 }

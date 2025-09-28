@@ -21,8 +21,8 @@ public class GetTaskListByIdAdapter implements GetTaskListByIdOutputGateway {
   private final TaskListRepository repository;
 
   @Override
-  public Optional<TaskList> getTaskListById(UUID id) {
-    var result = this.repository.findById(id);
+  public Optional<TaskList> getTaskListById(String id) {
+    var result = this.repository.findById(UUID.fromString(id));
 
     return result.map(TaskList::of);
   }

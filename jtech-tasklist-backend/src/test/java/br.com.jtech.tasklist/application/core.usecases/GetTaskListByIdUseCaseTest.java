@@ -72,14 +72,14 @@ public class GetTaskListByIdUseCaseTest {
     when(this.repository.findById(UUID.fromString(id)))
       .thenReturn(Optional.of(list.toModel()));
 
-    var result = this.useCase.getById(UUID.fromString(id), UUID.fromString(user.getId()));
+    var result = this.useCase.getById(id, user.getId());
 
     assertEquals(list, result);
     assertTrue(list.getTasks().contains(task));
   }
 
   @Test
-  @DisplayName("Should not get a task list and throw an TaskListNotFoundException")
+  @DisplayName("Should not be able get a task list and throw an TaskListNotFoundException")
   void shouldThrowTaskListNotFoundException() {
     var id = GenId.newId();
     var userId = GenId.newId();
@@ -87,12 +87,11 @@ public class GetTaskListByIdUseCaseTest {
     when(this.repository.findById(any(UUID.class)))
       .thenReturn(Optional.empty());
 
-    assertThrows(TaskListNotFoundException.class, () -> this.useCase.getById(UUID.fromString(id),
-      UUID.fromString(userId)));
+    assertThrows(TaskListNotFoundException.class, () -> this.useCase.getById(id, userId));
   }
 
   @Test
-  @DisplayName("Should not get a task list and throw an UnauthorizedException if given userId doesn't match a list userId")
+  @DisplayName("Should not be able get a task list and throw an UnauthorizedException if given userId doesn't match a list userId")
   void shouldThrowUnauthorizedException() {
     var id = GenId.newId();
 
@@ -117,8 +116,7 @@ public class GetTaskListByIdUseCaseTest {
     when(this.repository.findById(UUID.fromString(id)))
       .thenReturn(Optional.of(list.toModel()));
 
-    assertThrows(UnauthorizedException.class, () -> this.useCase.getById(UUID.fromString(id),
-      UUID.fromString(GenId.newId())));
+    assertThrows(UnauthorizedException.class, () -> this.useCase.getById(id, GenId.newId()));
   }
 
 }

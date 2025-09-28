@@ -43,8 +43,8 @@ public class CreateTaskListAdapter implements CreateTaskListOutputGateway {
   }
 
   @Override
-  public Optional<User> findUserById(UUID id) {
-    var entity = this.userRepository.findById(id);
+  public Optional<User> findUserById(String id) {
+    var entity = this.userRepository.findById(UUID.fromString(id));
 
     return entity.map(User::of);
   }

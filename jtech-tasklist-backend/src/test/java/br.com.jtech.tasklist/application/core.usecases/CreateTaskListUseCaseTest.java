@@ -48,7 +48,7 @@ public class CreateTaskListUseCaseTest {
   }
 
   @Test
-  @DisplayName("Should create a task list")
+  @DisplayName("Should be able to create a task list")
   void shouldCreateTaskList() {
     var id = GenId.newId();
 
@@ -79,7 +79,7 @@ public class CreateTaskListUseCaseTest {
   }
 
   @Test
-  @DisplayName("Shoudl not create a task list and throw an TaskListUserNotFoundException")
+  @DisplayName("Should not be able to create a task list and throw an TaskListUserNotFoundException")
   void shouldThrowTaskListUserNotFoundException() {
     var list = TaskList.builder()
       .userId(GenId.newId())

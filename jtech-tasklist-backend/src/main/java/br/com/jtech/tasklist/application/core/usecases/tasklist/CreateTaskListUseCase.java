@@ -18,8 +18,6 @@ import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskL
 import br.com.jtech.tasklist.application.ports.input.tasklist.CreateTaskListInputGateway;
 import br.com.jtech.tasklist.application.ports.output.tasklist.CreateTaskListOutputGateway;
 
-import java.util.UUID;
-
 /**
  * class CreateTaskListUseCase
  * <p>
@@ -34,7 +32,7 @@ public class CreateTaskListUseCase implements CreateTaskListInputGateway {
   }
 
   public TaskList create(TaskList tasklist) {
-    var userExits = this.outputGateway.findUserById(UUID.fromString(tasklist.getUserId()))
+    var userExits = this.outputGateway.findUserById(tasklist.getUserId())
       .isPresent();
 
     if (!userExits) {

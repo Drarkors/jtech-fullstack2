@@ -2,8 +2,6 @@ package br.com.jtech.tasklist.application.ports.input.tasklist;
 
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 
-import java.util.UUID;
-
 /**
  * class GetUserByIdInputGateway
  * <p>
@@ -11,6 +9,6 @@ import java.util.UUID;
  */
 public interface GetTaskListByIdInputGateway {
 
-  TaskList getById(UUID taskListId, UUID userId);
+  TaskList getById(String taskListId, String userId);
 
 }
