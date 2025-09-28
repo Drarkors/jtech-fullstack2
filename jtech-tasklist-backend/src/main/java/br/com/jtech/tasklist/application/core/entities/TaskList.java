@@ -14,6 +14,11 @@ package br.com.jtech.tasklist.application.core.entities;
 
 import br.com.jtech.tasklist.adapters.database.repositories.models.TaskListModel;
 import br.com.jtech.tasklist.adapters.rest.protocols.TaskListRequest;
+import br.com.jtech.tasklist.config.infra.exceptions.constraints.UUIDConstraint;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -41,11 +46,28 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TaskList {
 
+  @NotNull
+  @NotEmpty
+  @UUIDConstraint
   private String id;
+
+  @NotNull
+  @NotEmpty
+  @UUIDConstraint
   private String userId;
+
+  @NotNull
+  @NotEmpty
+  @Size(min = 4, max = 100, message = "Field \"name\" must have from 4 up to 100 characters")
   private String name;
+
+  @Size(max = 500, message = "Field \"description\" can have up to 500 characters")
   private String description;
+
+  @NotNull
+  @Max(value = Integer.MAX_VALUE, message = "Field \"order\" can go up to " + Integer.MAX_VALUE)
   private Integer order;
+
   private Set<Task> tasks;
 
   public static List<TaskList> of(List<TaskListModel> entities) {

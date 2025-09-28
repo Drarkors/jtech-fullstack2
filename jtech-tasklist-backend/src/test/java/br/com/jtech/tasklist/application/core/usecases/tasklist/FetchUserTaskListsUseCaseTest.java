@@ -1,11 +1,10 @@
-package br.com.jtech.tasklist.application.core.usecases;
+package br.com.jtech.tasklist.application.core.usecases.tasklist;
 
 import br.com.jtech.tasklist.adapters.database.repositories.TaskListRepository;
 import br.com.jtech.tasklist.adapters.database.repositories.UserRepository;
 import br.com.jtech.tasklist.adapters.database.tasklist.FetchUserTaskListsAdapter;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.entities.User;
-import br.com.jtech.tasklist.application.core.usecases.tasklist.FetchUserTaskListsUseCase;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListUserNotFoundException;
 import br.com.jtech.tasklist.config.infra.utils.GenId;
 import br.com.jtech.tasklist.config.usecases.FetchUserTaskListsUseCaseConfig;

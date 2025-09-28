@@ -42,11 +42,11 @@ import java.util.Objects;
  * <p>
  * user angelo.vicente
  */
+@Getter
 @Slf4j
 @UtilityClass
 public class Jsons {
 
-  @Getter
   private static final ObjectMapper mapper;
 
   private static final String DEFAULT_DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
