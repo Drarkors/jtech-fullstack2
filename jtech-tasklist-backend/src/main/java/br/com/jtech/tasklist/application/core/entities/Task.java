@@ -9,19 +9,20 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Getter
 @Setter
 @Builder
 @ToString
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class Task {
@@ -81,17 +82,4 @@ public class Task {
       .build();
   }
 
-  @Override
-  public boolean equals(Object object) {
-    if (this == object) return true;
-    if (!(object instanceof Task task)) return false;
-    return Objects.equals(id, task.id) && Objects.equals(taskListId, task.taskListId)
-      && Objects.equals(name, task.name) && Objects.equals(description, task.description)
-      && Objects.equals(order, task.order) && Objects.equals(isDone, task.isDone);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, taskListId, name, description, order, isDone);
-  }
 }

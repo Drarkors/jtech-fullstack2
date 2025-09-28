@@ -16,13 +16,13 @@ import br.com.jtech.tasklist.adapters.database.repositories.models.TaskListModel
 import br.com.jtech.tasklist.adapters.rest.protocols.TaskListRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -36,6 +36,7 @@ import java.util.UUID;
 @Setter
 @Builder
 @ToString
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskList {
@@ -65,20 +66,6 @@ public class TaskList {
     return TaskList.builder()
       .id(request.getId())
       .build();
-  }
-
-  @Override
-  public boolean equals(Object object) {
-    if (this == object) return true;
-    if (!(object instanceof TaskList taskList)) return false;
-    return Objects.equals(id, taskList.id) && Objects.equals(userId, taskList.userId)
-      && Objects.equals(name, taskList.name) && Objects.equals(description, taskList.description)
-      && Objects.equals(order, taskList.order);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, userId, name, description, order);
   }
 
   public TaskListModel toModel() {
