@@ -1,26 +1,14 @@
-/*
- *  @(#)TasklistEntity.java
- *
- *  Copyright (c) J-Tech Solucoes em Informatica.
- *  All Rights Reserved.
- *
- *  This software is the confidential and proprietary information of J-Tech.
- *  ("Confidential Information"). You shall not disclose such Confidential
- *  Information and shall use it only in accordance with the terms of the
- *  license agreement you entered into with J-Tech.
- *
- */
 package br.com.jtech.tasklist.adapters.database.repositories.models;
 
-import br.com.jtech.tasklist.application.core.entities.Task;
-import br.com.jtech.tasklist.application.core.entities.User;
+import br.com.jtech.tasklist.application.core.entities.TaskList;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
@@ -35,11 +23,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
 /**
- * class TaskListModel
+ * class TaskModel
  *
  * @author rafael.zanetti
  */
@@ -48,16 +35,18 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "TaskList")
-public class TaskListModel {
-
+@Entity(name = "task")
+@Table(name = "measurement", uniqueConstraints = {
+  @UniqueConstraint(name = "unique_task_per_list", columnNames = {"name", "task_list_id"})
+})
+public class TaskModel {
   @Id
   @GeneratedValue
   @UuidGenerator
   private UUID id;
 
-  @Column(name = "user_id", nullable = false)
-  private UUID userId;
+  @Column(name = "task_list_id", nullable = false)
+  private UUID taskListId;
 
   @Column(nullable = false, length = 100)
   @Size(max = 100, min = 1)
@@ -73,6 +62,10 @@ public class TaskListModel {
   @ColumnDefault(value = "0")
   private Integer order;
 
+  @Column(name = "is_done")
+  @ColumnDefault(value = "false")
+  private Boolean isDone;
+
   @Column
   @ColumnDefault(value = "false")
   private boolean isDeleted;
@@ -84,11 +77,6 @@ public class TaskListModel {
   private LocalDateTime updatedAt;
 
   @ManyToOne
-  @JoinColumn(name = "user_id", updatable = false, insertable = false)
-  private User user;
-
-  @OneToMany
-  @JoinColumn(name = "id", insertable = false, updatable = false)
-  private Set<Task> tasks;
-  
+  @JoinColumn(name = "task_list_id", updatable = false, insertable = false)
+  private TaskList taskList;
 }

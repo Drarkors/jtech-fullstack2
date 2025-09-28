@@ -23,6 +23,7 @@ import lombok.ToString;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -44,6 +45,7 @@ public class TaskList {
   private String name;
   private String description;
   private Integer order;
+  private Set<Task> tasks;
 
   public static List<TaskList> of(List<TaskListModel> entities) {
     return entities.stream().map(TaskList::of).toList();

@@ -1,0 +1,34 @@
+package br.com.jtech.tasklist.application.core.usecases.tasklist;
+
+import br.com.jtech.tasklist.application.core.entities.TaskList;
+import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListNotFoundException;
+import br.com.jtech.tasklist.application.ports.input.tasklist.GetTaskListByIdInputGateway;
+import br.com.jtech.tasklist.application.ports.output.tasklist.GetTaskListByIdOutputGateway;
+import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
+
+import java.util.UUID;
+
+public class GetTaskListByIdUseCase implements GetTaskListByIdInputGateway {
+
+  private final GetTaskListByIdOutputGateway outputGateway;
+
+  public GetTaskListByIdUseCase(GetTaskListByIdOutputGateway outputGateway) {
+    this.outputGateway = outputGateway;
+  }
+
+  public TaskList getById(UUID taskListId, UUID userId) {
+    var optional = this.outputGateway.getTaskListById(taskListId);
+
+    if (optional.isEmpty()) {
+      throw new TaskListNotFoundException();
+    }
+
+    var entity = optional.get();
+
+    if (!entity.getUserId().equals(userId.toString())) {
+      throw new UnauthorizedException();
+    }
+
+    return entity;
+  }
+}
