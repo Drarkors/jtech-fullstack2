@@ -10,8 +10,8 @@ import java.util.UUID;
  * <p>
  * user rafael.zanetti
  */
-public interface FetchUserTaskListsInput {
+public interface FetchUserTaskListsInputGateway {
 
-  Set<TaskList> fetchUserTaskLists(UUID userId);
+  Set<TaskList> fetchTaskLists(UUID userId);
 
 }

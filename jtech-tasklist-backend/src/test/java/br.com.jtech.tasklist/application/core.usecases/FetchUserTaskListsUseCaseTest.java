@@ -64,7 +64,7 @@ public class FetchUserTaskListsUseCaseTest {
     when(this.repository.findAllByUserId(eq(UUID.fromString(user.getId()))))
       .thenReturn(Collections.singleton(list.toModel()));
 
-    var result = this.useCase.fetchUserTaskLists(UUID.fromString(user.getId()));
+    var result = this.useCase.fetchTaskLists(UUID.fromString(user.getId()));
 
     assertEquals(1, result.size());
     assertTrue(result.contains(list));
@@ -78,6 +78,6 @@ public class FetchUserTaskListsUseCaseTest {
     when(this.userRepository.findById(any(UUID.class)))
       .thenReturn(Optional.empty());
 
-    assertThrows(TaskListUserNotFoundException.class, () -> this.useCase.fetchUserTaskLists(UUID.fromString(userId)));
+    assertThrows(TaskListUserNotFoundException.class, () -> this.useCase.fetchTaskLists(UUID.fromString(userId)));
   }
 }
