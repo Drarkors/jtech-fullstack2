@@ -1,9 +1,9 @@
 package br.com.jtech.tasklist.application.core.usecases;
 
-import br.com.jtech.tasklist.adapters.database.CreateTaskListAdapter;
 import br.com.jtech.tasklist.adapters.database.repositories.TaskListRepository;
 import br.com.jtech.tasklist.adapters.database.repositories.UserRepository;
 import br.com.jtech.tasklist.adapters.database.repositories.models.TaskListModel;
+import br.com.jtech.tasklist.adapters.database.tasklist.CreateTaskListAdapter;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.entities.User;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.CreateTaskListUseCase;

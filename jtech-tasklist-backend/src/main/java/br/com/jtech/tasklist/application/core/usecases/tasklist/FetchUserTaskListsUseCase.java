@@ -2,8 +2,8 @@ package br.com.jtech.tasklist.application.core.usecases.tasklist;
 
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListUserNotFoundException;
-import br.com.jtech.tasklist.application.ports.input.FetchUserTaskListsInput;
-import br.com.jtech.tasklist.application.ports.output.FetchUserTaskListsOutputGateway;
+import br.com.jtech.tasklist.application.ports.input.tasklist.FetchUserTaskListsInput;
+import br.com.jtech.tasklist.application.ports.output.tasklist.FetchUserTaskListsOutputGateway;
 
 import java.util.Set;
 import java.util.UUID;
@@ -28,7 +28,7 @@ public class FetchUserTaskListsUseCase implements FetchUserTaskListsInput {
     if (!userExits) {
       throw new TaskListUserNotFoundException();
     }
-    
+
     return this.outputGateway.fetchUserTaskLists(userId);
   }
 }

@@ -14,7 +14,7 @@
 package br.com.jtech.tasklist.adapters.rest.controllers;
 
 import br.com.jtech.tasklist.adapters.rest.protocols.TaskListRequest;
-import br.com.jtech.tasklist.application.ports.input.CreateTaskListInputGateway;
+import br.com.jtech.tasklist.application.ports.input.tasklist.CreateTaskListInputGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

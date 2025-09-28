@@ -1,10 +1,10 @@
-package br.com.jtech.tasklist.adapters.database;
+package br.com.jtech.tasklist.adapters.database.tasklist;
 
 import br.com.jtech.tasklist.adapters.database.repositories.TaskListRepository;
 import br.com.jtech.tasklist.adapters.database.repositories.UserRepository;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.entities.User;
-import br.com.jtech.tasklist.application.ports.output.FetchUserTaskListsOutputGateway;
+import br.com.jtech.tasklist.application.ports.output.tasklist.FetchUserTaskListsOutputGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

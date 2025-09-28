@@ -1,4 +1,4 @@
-package br.com.jtech.tasklist.application.ports.input;
+package br.com.jtech.tasklist.application.ports.input.task;
 
 import br.com.jtech.tasklist.application.core.entities.Task;
 

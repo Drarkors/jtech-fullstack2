@@ -12,7 +12,7 @@
  */
 package br.com.jtech.tasklist.config.usecases;
 
-import br.com.jtech.tasklist.adapters.database.CreateTaskListAdapter;
+import br.com.jtech.tasklist.adapters.database.tasklist.CreateTaskListAdapter;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.CreateTaskListUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,8 +1,8 @@
 package br.com.jtech.tasklist.application.core.usecases;
 
-import br.com.jtech.tasklist.adapters.database.FetchUserTaskListsAdapter;
 import br.com.jtech.tasklist.adapters.database.repositories.TaskListRepository;
 import br.com.jtech.tasklist.adapters.database.repositories.UserRepository;
+import br.com.jtech.tasklist.adapters.database.tasklist.FetchUserTaskListsAdapter;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.entities.User;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.FetchUserTaskListsUseCase;

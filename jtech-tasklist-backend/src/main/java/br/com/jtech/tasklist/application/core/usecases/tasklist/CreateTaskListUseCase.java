@@ -15,8 +15,8 @@ package br.com.jtech.tasklist.application.core.usecases.tasklist;
 
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListUserNotFoundException;
-import br.com.jtech.tasklist.application.ports.input.CreateTaskListInputGateway;
-import br.com.jtech.tasklist.application.ports.output.CreateTaskListOutputGateway;
+import br.com.jtech.tasklist.application.ports.input.tasklist.CreateTaskListInputGateway;
+import br.com.jtech.tasklist.application.ports.output.tasklist.CreateTaskListOutputGateway;
 
 import java.util.UUID;
 

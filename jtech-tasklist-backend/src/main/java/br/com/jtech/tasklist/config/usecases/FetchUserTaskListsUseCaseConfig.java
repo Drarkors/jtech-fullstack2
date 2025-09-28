@@ -1,6 +1,6 @@
 package br.com.jtech.tasklist.config.usecases;
 
-import br.com.jtech.tasklist.adapters.database.FetchUserTaskListsAdapter;
+import br.com.jtech.tasklist.adapters.database.tasklist.FetchUserTaskListsAdapter;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.FetchUserTaskListsUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

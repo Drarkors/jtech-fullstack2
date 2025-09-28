@@ -10,13 +10,13 @@
  *  license agreement you entered into with J-Tech.
  *
  */
-package br.com.jtech.tasklist.adapters.database;
+package br.com.jtech.tasklist.adapters.database.tasklist;
 
 import br.com.jtech.tasklist.adapters.database.repositories.TaskListRepository;
 import br.com.jtech.tasklist.adapters.database.repositories.UserRepository;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.entities.User;
-import br.com.jtech.tasklist.application.ports.output.CreateTaskListOutputGateway;
+import br.com.jtech.tasklist.application.ports.output.tasklist.CreateTaskListOutputGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

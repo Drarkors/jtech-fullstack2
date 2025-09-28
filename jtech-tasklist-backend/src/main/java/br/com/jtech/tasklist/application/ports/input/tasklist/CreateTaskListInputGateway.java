@@ -10,7 +10,7 @@
  *  license agreement you entered into with J-Tech.
  *
  */
-package br.com.jtech.tasklist.application.ports.input;
+package br.com.jtech.tasklist.application.ports.input.tasklist;
 
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 

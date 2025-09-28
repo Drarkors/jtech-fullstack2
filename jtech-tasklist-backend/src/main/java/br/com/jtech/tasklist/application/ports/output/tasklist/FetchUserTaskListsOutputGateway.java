@@ -1,4 +1,4 @@
-package br.com.jtech.tasklist.application.ports.output;
+package br.com.jtech.tasklist.application.ports.output.tasklist;
 
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.entities.User;
