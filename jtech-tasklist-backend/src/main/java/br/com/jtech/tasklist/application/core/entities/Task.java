@@ -46,7 +46,9 @@ public class Task {
   private Integer order;
 
   @NotNull
-  private Boolean isDone;
+  private Boolean isDone = Boolean.FALSE;
+
+  private TaskList taskList;
 
   public static List<Task> of(List<TaskModel> models) {
     return models.stream()
@@ -62,6 +64,7 @@ public class Task {
       .description(model.getDescription())
       .order(model.getOrder())
       .isDone(model.getIsDone())
+      .taskList(model.getTaskList())
       .build();
   }
 
@@ -79,6 +82,7 @@ public class Task {
       .description(getDescription())
       .order(getOrder())
       .isDone(getIsDone())
+      .taskList(getTaskList())
       .build();
   }
 
