@@ -3,6 +3,7 @@ package br.com.jtech.tasklist.application.core.usecases.tasklist;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListNotFoundException;
 import br.com.jtech.tasklist.application.ports.input.tasklist.UpdateTaskListInputGateway;
+import br.com.jtech.tasklist.application.ports.input.tasklist.dtos.UpdateTaskListInputDTO;
 import br.com.jtech.tasklist.application.ports.output.tasklist.UpdateTaskListOutputGateway;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ public class UpdateTaskListUseCase implements UpdateTaskListInputGateway {
 
   private final UpdateTaskListOutputGateway outputGateway;
 
-  public TaskList update(String id, String userId, String name, Integer order) {
+  public TaskList update(UpdateTaskListInputDTO dto, String id, String userId) {
     var output = this.outputGateway.findById(id);
 
     if (output.isEmpty()) {
@@ -25,8 +26,9 @@ public class UpdateTaskListUseCase implements UpdateTaskListInputGateway {
       throw new UnauthorizedException();
     }
 
-    entity.setName(name);
-    entity.setOrder(order);
+    entity.setName(dto.name());
+    entity.setDescription(dto.description());
+    entity.setOrder(dto.order());
 
     return this.outputGateway.update(entity);
   }

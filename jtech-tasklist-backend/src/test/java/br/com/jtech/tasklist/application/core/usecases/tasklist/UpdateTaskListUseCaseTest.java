@@ -6,6 +6,7 @@ import br.com.jtech.tasklist.adapters.database.tasklist.UpdateTaskListAdapter;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.entities.User;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListNotFoundException;
+import br.com.jtech.tasklist.application.ports.input.tasklist.dtos.UpdateTaskListInputDTO;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 import br.com.jtech.tasklist.config.infra.utils.GenId;
 import br.com.jtech.tasklist.config.usecases.tasklist.UpdateTaskListUseCaseConfig;
@@ -48,9 +49,6 @@ public class UpdateTaskListUseCaseTest {
   void shouldBeAbleToUpdate() {
     var id = GenId.newId();
 
-    var newOrder = 1;
-    var newName = "List - Updated";
-
     var user = User.builder().id(GenId.newId()).build();
 
     var list = TaskList.builder()
@@ -61,16 +59,19 @@ public class UpdateTaskListUseCaseTest {
       .order(0)
       .build();
 
+    var dto = new UpdateTaskListInputDTO("List - Updated", "Description - Updated", 1);
+
     when(this.repository.findById(UUID.fromString(id)))
       .thenReturn(Optional.of(list.toModel()));
 
     when(this.repository.save(any(TaskListModel.class)))
       .thenAnswer((invocation -> invocation.getArgument(0)));
 
-    var result = this.useCase.update(id, user.getId(), newName, newOrder);
+    var result = this.useCase.update(dto, id, user.getId());
 
-    assertEquals(newName, result.getName());
-    assertEquals(newOrder, result.getOrder());
+    assertEquals(dto.name(), result.getName());
+    assertEquals(dto.description(), result.getDescription());
+    assertEquals(dto.order(), result.getOrder());
 
     verify(this.repository, times(1)).save(any(TaskListModel.class));
   }
@@ -81,13 +82,12 @@ public class UpdateTaskListUseCaseTest {
     var id = GenId.newId();
     var userId = GenId.newId();
 
-    var newOrder = 1;
-    var newName = "List - Updated";
+    var dto = new UpdateTaskListInputDTO("List - Updated", "Descr", 1);
 
     when(this.repository.findById(any(UUID.class)))
       .thenReturn(Optional.empty());
 
-    assertThrows(TaskListNotFoundException.class, () -> this.useCase.update(id, userId, newName, newOrder));
+    assertThrows(TaskListNotFoundException.class, () -> this.useCase.update(dto, id, userId));
 
     verify(this.repository, times(0)).save(any(TaskListModel.class));
   }
@@ -109,10 +109,12 @@ public class UpdateTaskListUseCaseTest {
       .order(0)
       .build();
 
+    var dto = new UpdateTaskListInputDTO("List - Updated", "Descr", 1);
+
     when(this.repository.findById(UUID.fromString(id)))
       .thenReturn(Optional.of(list.toModel()));
 
-    assertThrows(UnauthorizedException.class, () -> this.useCase.update(id, userId, newName, newOrder));
+    assertThrows(UnauthorizedException.class, () -> this.useCase.update(dto, id, userId));
 
     verify(this.repository, times(0)).save(any(TaskListModel.class));
   }
