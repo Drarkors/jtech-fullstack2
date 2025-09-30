@@ -7,6 +7,11 @@ import br.com.jtech.tasklist.application.ports.output.task.GetTaskByIdOutputGate
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * class GetTaskByIdUseCase
+ * <p>
+ * user rafael.zanetti
+ */
 @RequiredArgsConstructor
 public class GetTaskByIdUseCase implements GetTaskByIdInputGateway {
 

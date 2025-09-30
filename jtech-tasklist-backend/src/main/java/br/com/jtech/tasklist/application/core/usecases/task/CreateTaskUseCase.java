@@ -6,6 +6,11 @@ import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskL
 import br.com.jtech.tasklist.application.ports.input.task.CreateTaskInputGateway;
 import br.com.jtech.tasklist.application.ports.output.task.CreateTaskOutputGateway;
 
+/**
+ * class CreateTaskUseCase
+ * <p>
+ * user rafael.zanetti
+ */
 public class CreateTaskUseCase implements CreateTaskInputGateway {
 
   private final CreateTaskOutputGateway outputGateway;

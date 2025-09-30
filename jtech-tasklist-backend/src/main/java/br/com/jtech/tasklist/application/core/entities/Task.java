@@ -46,6 +46,7 @@ public class Task {
   private Integer order;
 
   @NotNull
+  @Builder.Default
   private Boolean isDone = Boolean.FALSE;
 
   private TaskList taskList;

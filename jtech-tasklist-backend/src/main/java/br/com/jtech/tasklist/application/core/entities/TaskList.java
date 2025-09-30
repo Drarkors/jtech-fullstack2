@@ -81,6 +81,7 @@ public class TaskList {
       .name(entity.getName())
       .description(entity.getDescription())
       .order(entity.getOrder())
+      .tasks(entity.getTasks())
       .build();
   }
 
@@ -97,6 +98,7 @@ public class TaskList {
       .name(getName())
       .description(getDescription())
       .order(getOrder())
+      .tasks(getTasks())
       .build();
   }
 }
