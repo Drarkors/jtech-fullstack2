@@ -22,7 +22,7 @@ import java.util.UUID;
 @Setter
 @Builder
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"order", "description", "isDone"})
 @NoArgsConstructor
 @AllArgsConstructor
 public class Task {
