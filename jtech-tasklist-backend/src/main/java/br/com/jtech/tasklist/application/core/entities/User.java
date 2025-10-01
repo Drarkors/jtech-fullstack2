@@ -39,7 +39,7 @@ public class User {
 
   public static User of(UserModel entity) {
     return User.builder()
-      .id(entity.getId().toString())
+      .id(entity.getId() != null ? entity.getId().toString() : null)
       .userName(entity.getUserName())
       .password(entity.getPassword())
       .build();
