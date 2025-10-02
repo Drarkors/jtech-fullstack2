@@ -1,7 +1,7 @@
 package br.com.jtech.tasklist.config.usecases.task;
 
-import br.com.jtech.tasklist.adapters.database.task.ToggleTaskIsDoneAdapter;
 import br.com.jtech.tasklist.application.core.usecases.task.ToggleTaskIsDoneUseCase;
+import br.com.jtech.tasklist.application.ports.output.task.ToggleTaskIsDoneOutputGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ToggleTaskIsDoneUseCaseConfig {
 
-  @Bean
-  public ToggleTaskIsDoneUseCase useCase(ToggleTaskIsDoneAdapter adapter) {
-    return new ToggleTaskIsDoneUseCase(adapter);
+  @Bean(name = "ToggleTaskIsDoneUseCase")
+  public ToggleTaskIsDoneUseCase useCase(ToggleTaskIsDoneOutputGateway outputGateway) {
+    return new ToggleTaskIsDoneUseCase(outputGateway);
   }
 
 }

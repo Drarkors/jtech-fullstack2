@@ -7,6 +7,7 @@ import br.com.jtech.tasklist.application.core.entities.User;
 import br.com.jtech.tasklist.application.core.usecases.user.exceptions.UserAlreadyExistsException;
 import br.com.jtech.tasklist.config.infra.utils.GenId;
 import br.com.jtech.tasklist.config.usecases.user.CreateUserUseCaseConfig;
+import br.com.jtech.tasklist.factories.UserFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,10 +49,7 @@ public class CreateUserUseCaseTest {
   @Test
   @DisplayName("Should be able to create a user")
   void shouldCreateUser() {
-    var user = User.builder()
-      .userName("User")
-      .password("Password")
-      .build();
+    var user = UserFactory.fakeUserWithoutId();
 
     when(this.repository.findByUserName(eq(user.getUserName()))).thenReturn(Optional.empty());
     when(this.repository.save(any(UserModel.class))).thenAnswer((_p) -> {

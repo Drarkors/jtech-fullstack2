@@ -13,16 +13,15 @@
  */
 package br.com.jtech.tasklist.adapters.rest.controllers;
 
-import br.com.jtech.tasklist.adapters.rest.protocols.TaskListRequest;
+import br.com.jtech.tasklist.adapters.rest.protocols.tasklist.requests.CreateTaskListRequest;
 import br.com.jtech.tasklist.application.ports.input.tasklist.CreateTaskListInputGateway;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import static br.com.jtech.tasklist.application.core.entities.TaskList.of;
 
 /**
  * class TaskListController
@@ -37,8 +36,10 @@ public class CreateTaskListController {
   private final CreateTaskListInputGateway createTasklistInputGateway;
 
   @PostMapping
-  public ResponseEntity<Void> create(@RequestBody TaskListRequest request) {
-    createTasklistInputGateway.create(of(request));
+  public ResponseEntity<Void> create(HttpServletRequest request, @RequestBody CreateTaskListRequest payload) {
+    var userId = request.getAttribute("user_id").toString();
+
+    createTasklistInputGateway.create(payload.to(), userId);
     return ResponseEntity.noContent().build();
   }
 

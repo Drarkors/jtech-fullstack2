@@ -1,7 +1,7 @@
 package br.com.jtech.tasklist.config.usecases.tasklist;
 
-import br.com.jtech.tasklist.adapters.database.tasklist.DeleteTaskListAdapter;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.DeleteTaskListUseCase;
+import br.com.jtech.tasklist.application.ports.output.tasklist.DeleteTaskListOutputGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DeleteTaskListUseCaseConfig {
 
-  @Bean
-  public DeleteTaskListUseCase useCase(DeleteTaskListAdapter adapter) {
-    return new DeleteTaskListUseCase(adapter);
+  @Bean(name = "DeleteTaskListUseCase")
+  public DeleteTaskListUseCase useCase(DeleteTaskListOutputGateway outputGateway) {
+    return new DeleteTaskListUseCase(outputGateway);
   }
 
 }

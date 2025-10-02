@@ -12,8 +12,6 @@
  */
 package br.com.jtech.tasklist.adapters.database.repositories.models;
 
-import br.com.jtech.tasklist.application.core.entities.Task;
-import br.com.jtech.tasklist.application.core.entities.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -54,8 +52,8 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "task_list")
-@Table(name = "task_list", indexes = {
+@Entity(name = "tasklist")
+@Table(name = "tasklist", indexes = {
   @Index(columnList = "id"),
   @Index(name = "deletedIndex", columnList = "id, isDeleted")
 })
@@ -79,7 +77,7 @@ public class TaskListModel {
   @Size(max = 500)
   private String description;
 
-  @Column
+  @Column(name = "at_order")
   @Min(0)
   @Max(Integer.MAX_VALUE)
   @ColumnDefault(value = "0")
@@ -97,10 +95,10 @@ public class TaskListModel {
 
   @ManyToOne
   @JoinColumn(name = "user_id", updatable = false, insertable = false)
-  private User user;
+  private UserModel user;
 
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "id", insertable = false, updatable = false)
-  private Set<Task> tasks;
+  private Set<TaskModel> tasks;
 
 }

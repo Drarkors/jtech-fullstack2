@@ -1,7 +1,6 @@
 package br.com.jtech.tasklist.application.core.entities;
 
 import br.com.jtech.tasklist.adapters.database.repositories.models.TaskModel;
-import br.com.jtech.tasklist.adapters.rest.protocols.TaskListRequest;
 import br.com.jtech.tasklist.config.infra.exceptions.constraints.UUIDConstraint;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotEmpty;
@@ -65,13 +64,7 @@ public class Task {
       .description(model.getDescription())
       .order(model.getOrder())
       .isDone(model.getIsDone())
-      .taskList(model.getTaskList())
-      .build();
-  }
-
-  public static TaskList of(TaskListRequest request) {
-    return TaskList.builder()
-      .id(request.getId())
+      .taskList(model.getTaskList() != null ? TaskList.of(model.getTaskList()) : null)
       .build();
   }
 
@@ -83,7 +76,7 @@ public class Task {
       .description(getDescription())
       .order(getOrder())
       .isDone(getIsDone())
-      .taskList(getTaskList())
+      .taskList(getTaskList() != null ? getTaskList().toModel() : null)
       .build();
   }
 

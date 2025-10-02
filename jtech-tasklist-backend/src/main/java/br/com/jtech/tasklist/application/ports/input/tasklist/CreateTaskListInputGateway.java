@@ -21,6 +21,6 @@ import br.com.jtech.tasklist.application.core.entities.TaskList;
  */
 public interface CreateTaskListInputGateway {
 
-  TaskList create(TaskList taskList);
+  TaskList create(TaskList taskList, String userId);
 
 }

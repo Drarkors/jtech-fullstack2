@@ -24,7 +24,8 @@ public class AuthenticateUserUseCase implements AuthenticateUserInputGateway {
   private final PasswordEncoder passwordEncoder;
 
   private final String secretKey;
-  private final Integer tokenDurationInMinutes;
+  private final String issuer;
+  private final Integer durationInMinutes;
 
   @Override
   public AuthenticatedUserDTO authenticate(String userName, String password) throws AuthenticationException {
@@ -42,11 +43,11 @@ public class AuthenticateUserUseCase implements AuthenticateUserInputGateway {
       throw new AuthenticationException();
     }
 
-    Algorithm algorithm = Algorithm.HMAC256(secretKey);
-    var expiresIn = Instant.now().plus(Duration.ofMinutes(tokenDurationInMinutes));
+    Algorithm algorithm = Algorithm.HMAC256(this.secretKey);
+    var expiresIn = Instant.now().plus(Duration.ofMinutes(this.durationInMinutes));
 
     var token = JWT.create()
-      .withIssuer("tasklist-api")
+      .withIssuer(this.issuer)
       .withExpiresAt(expiresIn)
       .withSubject(entity.getId())
       .sign(algorithm);

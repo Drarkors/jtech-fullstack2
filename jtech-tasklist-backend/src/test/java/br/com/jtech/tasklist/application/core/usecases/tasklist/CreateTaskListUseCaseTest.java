@@ -5,10 +5,10 @@ import br.com.jtech.tasklist.adapters.database.repositories.UserRepository;
 import br.com.jtech.tasklist.adapters.database.repositories.models.TaskListModel;
 import br.com.jtech.tasklist.adapters.database.tasklist.CreateTaskListAdapter;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
-import br.com.jtech.tasklist.application.core.entities.User;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListUserNotFoundException;
 import br.com.jtech.tasklist.config.infra.utils.GenId;
 import br.com.jtech.tasklist.config.usecases.tasklist.CreateTaskListUseCaseConfig;
+import br.com.jtech.tasklist.factories.UserFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -51,22 +50,21 @@ public class CreateTaskListUseCaseTest {
   void shouldCreateTaskList() {
     var id = GenId.newId();
 
-    var user = User.builder().id(GenId.newId()).build();
+    var user = UserFactory.fakeUser();
     var list = TaskList.builder()
-      .userId(user.getId())
       .name("List")
       .description("Description")
       .order(0)
       .build();
 
-    when(this.userRepository.findById(any(UUID.class)))
+    when(this.userRepository.findById(any()))
       .thenReturn(Optional.of(user.toModel()));
     when(this.repository.save(any(TaskListModel.class))).thenAnswer((_p) -> {
       list.setId(id);
       return list.toModel();
     });
 
-    var result = this.useCase.create(list);
+    var result = this.useCase.create(list, user.getId());
 
     assertEquals(list.getId(), result.getId());
     assertEquals(list.getUserId(), result.getUserId());
@@ -81,16 +79,15 @@ public class CreateTaskListUseCaseTest {
   @DisplayName("Should not be able to create a task list and throw an TaskListUserNotFoundException")
   void shouldThrowTaskListUserNotFoundException() {
     var list = TaskList.builder()
-      .userId(GenId.newId())
       .name("List")
       .description("Description")
       .order(0)
       .build();
 
-    when(this.userRepository.findById(any(UUID.class)))
+    when(this.userRepository.findById(any()))
       .thenReturn(Optional.empty());
 
-    assertThrows(TaskListUserNotFoundException.class, () -> this.useCase.create(list));
+    assertThrows(TaskListUserNotFoundException.class, () -> this.useCase.create(list, GenId.newId()));
 
     verify(this.repository, times(0)).save(any(TaskListModel.class));
   }

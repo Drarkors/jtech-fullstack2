@@ -13,7 +13,6 @@
 package br.com.jtech.tasklist.application.core.entities;
 
 import br.com.jtech.tasklist.adapters.database.repositories.models.TaskListModel;
-import br.com.jtech.tasklist.adapters.rest.protocols.TaskListRequest;
 import br.com.jtech.tasklist.config.infra.exceptions.constraints.UUIDConstraint;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotEmpty;
@@ -30,6 +29,7 @@ import lombok.ToString;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 /**
@@ -81,13 +81,7 @@ public class TaskList {
       .name(entity.getName())
       .description(entity.getDescription())
       .order(entity.getOrder())
-      .tasks(entity.getTasks())
-      .build();
-  }
-
-  public static TaskList of(TaskListRequest request) {
-    return TaskList.builder()
-      .id(request.getId())
+      .tasks(entity.getTasks() != null ? entity.getTasks().stream().map(Task::of).collect(Collectors.toSet()) : null)
       .build();
   }
 
@@ -98,7 +92,7 @@ public class TaskList {
       .name(getName())
       .description(getDescription())
       .order(getOrder())
-      .tasks(getTasks())
+      .tasks(getTasks() != null ? getTasks().stream().map(Task::toModel).collect(Collectors.toSet()) : null)
       .build();
   }
 }

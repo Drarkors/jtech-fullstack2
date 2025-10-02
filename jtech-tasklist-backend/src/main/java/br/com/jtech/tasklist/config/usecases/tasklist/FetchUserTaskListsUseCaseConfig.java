@@ -1,7 +1,7 @@
 package br.com.jtech.tasklist.config.usecases.tasklist;
 
-import br.com.jtech.tasklist.adapters.database.tasklist.FetchUserTaskListsAdapter;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.FetchUserTaskListsUseCase;
+import br.com.jtech.tasklist.application.ports.output.tasklist.FetchUserTaskListsOutputGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FetchUserTaskListsUseCaseConfig {
 
-  @Bean
-  public FetchUserTaskListsUseCase useCase(FetchUserTaskListsAdapter adapter) {
-    return new FetchUserTaskListsUseCase(adapter);
+  @Bean(name = "FetchUserTaskListsUseCase")
+  public FetchUserTaskListsUseCase useCase(FetchUserTaskListsOutputGateway outputGateway) {
+    return new FetchUserTaskListsUseCase(outputGateway);
   }
 
 }

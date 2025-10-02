@@ -28,7 +28,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "user")
+@Entity(name = "tasklist_user")
 public class UserModel {
 
   @Id

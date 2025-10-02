@@ -1,7 +1,7 @@
 package br.com.jtech.tasklist.config.usecases.task;
 
-import br.com.jtech.tasklist.adapters.database.task.UpdateTaskAdapter;
 import br.com.jtech.tasklist.application.core.usecases.task.UpdateTaskUseCase;
+import br.com.jtech.tasklist.application.ports.output.task.UpdateTaskOutputGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class UpdateTaskUseCaseConfig {
 
-  @Bean
-  public UpdateTaskUseCase useCase(UpdateTaskAdapter adapter) {
-    return new UpdateTaskUseCase(adapter);
+  @Bean(name = "UpdateTaskUseCase")
+  public UpdateTaskUseCase useCase(UpdateTaskOutputGateway outputGateway) {
+    return new UpdateTaskUseCase(outputGateway);
   }
 
 }

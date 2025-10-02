@@ -50,4 +50,5 @@ api:
 security:
   token:
     secret: ${JWT_SECRET:JTECH_JWT_SECRET_123!}
-    durationInMinutes: 10
+    issuer: ${JWT_ISSUER:JTECH_TASKLIST_API}
+    durationInMinutes: ${JWT_DURATION_IN_MINUTES:10}

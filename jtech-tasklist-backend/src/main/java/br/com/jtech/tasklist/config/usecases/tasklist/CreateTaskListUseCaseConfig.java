@@ -12,8 +12,8 @@
  */
 package br.com.jtech.tasklist.config.usecases.tasklist;
 
-import br.com.jtech.tasklist.adapters.database.tasklist.CreateTaskListAdapter;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.CreateTaskListUseCase;
+import br.com.jtech.tasklist.application.ports.output.tasklist.CreateTaskListOutputGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,9 +25,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CreateTaskListUseCaseConfig {
 
-  @Bean
-  public CreateTaskListUseCase useCase(CreateTaskListAdapter createTasklistAdapter) {
-    return new CreateTaskListUseCase(createTasklistAdapter);
+  @Bean(name = "CreateTaskListUseCase")
+  public CreateTaskListUseCase useCase(CreateTaskListOutputGateway outputGateway) {
+    return new CreateTaskListUseCase(outputGateway);
   }
 
 }

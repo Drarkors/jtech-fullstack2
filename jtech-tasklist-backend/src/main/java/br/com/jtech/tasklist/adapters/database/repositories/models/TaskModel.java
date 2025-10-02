@@ -1,6 +1,5 @@
 package br.com.jtech.tasklist.adapters.database.repositories.models;
 
-import br.com.jtech.tasklist.application.core.entities.TaskList;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -56,7 +55,7 @@ public class TaskModel {
   @Size(max = 500)
   private String description;
 
-  @Column
+  @Column(name = "at_order")
   @Min(0)
   @Max(Integer.MAX_VALUE)
   @ColumnDefault(value = "0")
@@ -78,5 +77,5 @@ public class TaskModel {
 
   @ManyToOne
   @JoinColumn(name = "task_list_id", updatable = false, insertable = false)
-  private TaskList taskList;
+  private TaskListModel taskList;
 }

@@ -29,13 +29,15 @@ public class CreateTaskListUseCase implements CreateTaskListInputGateway {
 
   private final CreateTaskListOutputGateway outputGateway;
 
-  public TaskList create(TaskList tasklist) {
-    var userExits = this.outputGateway.findUserById(tasklist.getUserId())
+  public TaskList create(TaskList tasklist, String userId) {
+    var userExits = this.outputGateway.findUserById(userId)
       .isPresent();
 
     if (!userExits) {
       throw new TaskListUserNotFoundException();
     }
+
+    tasklist.setUserId(userId);
 
     return outputGateway.create(tasklist);
   }

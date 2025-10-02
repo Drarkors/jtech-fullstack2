@@ -39,7 +39,8 @@ public class AuthenticateUserUseCaseTest {
 
   @BeforeEach
   void setup() {
-    this.useCase = new AuthenticateUserUseCaseConfig().useCase(adapter, encoder, "SECRET", 10);
+    this.useCase = new AuthenticateUserUseCaseConfig().useCase(adapter, encoder,
+      "SECRET", "ISSUER", 10);
   }
 
   @Test

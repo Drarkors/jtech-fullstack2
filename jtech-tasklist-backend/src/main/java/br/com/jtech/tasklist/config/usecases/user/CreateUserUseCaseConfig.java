@@ -1,8 +1,7 @@
 package br.com.jtech.tasklist.config.usecases.user;
 
-import br.com.jtech.tasklist.adapters.database.user.CreateUserAdapter;
 import br.com.jtech.tasklist.application.core.usecases.user.CreateUserUseCase;
-import lombok.RequiredArgsConstructor;
+import br.com.jtech.tasklist.application.ports.output.user.CreateUserOutputGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,9 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class CreateUserUseCaseConfig {
 
-  @Bean
-  public CreateUserUseCase useCase(CreateUserAdapter adapter, PasswordEncoder passwordEncoder) {
-    return new CreateUserUseCase(adapter, passwordEncoder);
+  @Bean(name = "CreateUserUseCase")
+  public CreateUserUseCase useCase(CreateUserOutputGateway outputGateway, PasswordEncoder passwordEncoder) {
+    return new CreateUserUseCase(outputGateway, passwordEncoder);
   }
 
 }

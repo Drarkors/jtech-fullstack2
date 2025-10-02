@@ -46,7 +46,7 @@ public class ReadyEventListener {
 
   private void show() {
     log.info("======================================================");
-    log.info("== Execute mode:.....................'{}'", environment);
+    log.info("== Execute mode :.....................'{}'", environment);
     log.info("======================================================");
   }
 }

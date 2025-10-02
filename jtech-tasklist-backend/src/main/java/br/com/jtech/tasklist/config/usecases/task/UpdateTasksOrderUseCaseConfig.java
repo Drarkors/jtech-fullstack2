@@ -1,7 +1,7 @@
 package br.com.jtech.tasklist.config.usecases.task;
 
-import br.com.jtech.tasklist.adapters.database.task.UpdateTasksOrderAdapter;
 import br.com.jtech.tasklist.application.core.usecases.task.UpdateTasksOrderUseCase;
+import br.com.jtech.tasklist.application.ports.output.task.UpdateTasksOrderOutputGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class UpdateTasksOrderUseCaseConfig {
 
-  @Bean
-  public UpdateTasksOrderUseCase useCase(UpdateTasksOrderAdapter adapter) {
-    return new UpdateTasksOrderUseCase(adapter);
+  @Bean(name = "UpdateTasksOrderUseCase")
+  public UpdateTasksOrderUseCase useCase(UpdateTasksOrderOutputGateway outputGateway) {
+    return new UpdateTasksOrderUseCase(outputGateway);
   }
 
 }

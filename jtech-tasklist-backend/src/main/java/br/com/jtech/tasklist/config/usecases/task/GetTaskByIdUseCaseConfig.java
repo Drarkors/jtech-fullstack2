@@ -1,7 +1,7 @@
 package br.com.jtech.tasklist.config.usecases.task;
 
-import br.com.jtech.tasklist.adapters.database.task.GetTaskByIdAdapter;
 import br.com.jtech.tasklist.application.core.usecases.task.GetTaskByIdUseCase;
+import br.com.jtech.tasklist.application.ports.output.task.GetTaskByIdOutputGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class GetTaskByIdUseCaseConfig {
 
-  @Bean
-  public GetTaskByIdUseCase useCase(GetTaskByIdAdapter adapter) {
-    return new GetTaskByIdUseCase(adapter);
+  @Bean(name = "GetTaskByIdUseCase")
+  public GetTaskByIdUseCase useCase(GetTaskByIdOutputGateway outputGateway) {
+    return new GetTaskByIdUseCase(outputGateway);
   }
 
 }
