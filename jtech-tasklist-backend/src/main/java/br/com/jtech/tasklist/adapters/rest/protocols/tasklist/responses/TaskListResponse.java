@@ -10,7 +10,7 @@
  *  license agreement you entered into with J-Tech.
  *
  */
-package br.com.jtech.tasklist.adapters.rest.protocols;
+package br.com.jtech.tasklist.adapters.rest.protocols.tasklist.responses;
 
 import br.com.jtech.tasklist.adapters.database.repositories.models.TaskListModel;
 import br.com.jtech.tasklist.application.core.entities.TaskList;

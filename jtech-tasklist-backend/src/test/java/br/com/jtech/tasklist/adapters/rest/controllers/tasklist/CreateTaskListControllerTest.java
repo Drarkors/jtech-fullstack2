@@ -2,6 +2,7 @@ package br.com.jtech.tasklist.adapters.rest.controllers.tasklist;
 
 import br.com.jtech.tasklist.adapters.database.repositories.UserRepository;
 import br.com.jtech.tasklist.adapters.rest.protocols.tasklist.requests.CreateTaskListRequest;
+import br.com.jtech.tasklist.config.infra.utils.GenId;
 import br.com.jtech.tasklist.config.infra.utils.Jsons;
 import br.com.jtech.tasklist.factories.UserFactory;
 import br.com.jtech.tasklist.utils.JWTUtils;
@@ -72,6 +73,23 @@ public class CreateTaskListControllerTest {
         .content(Objects.requireNonNull(Jsons.toJsonString(payload)))
         .header("Authorization", jwtUtils.generateToken(user.getId()))
     ).andExpect(MockMvcResultMatchers.status().isNoContent());
+  }
+
+  @Test
+  @DisplayName("Should not be able to create a new task list if userId is invalid")
+  void shouldThrowTaskListUserNotFoundException() throws Exception {
+    var payload = CreateTaskListRequest.builder()
+      .name("Task List")
+      .order(0)
+      .description("Description for task list")
+      .build();
+
+    mvc.perform(
+      MockMvcRequestBuilders.post("/api/v1/task-lists")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(Objects.requireNonNull(Jsons.toJsonString(payload)))
+        .header("Authorization", jwtUtils.generateToken(GenId.newId()))
+    ).andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
   }
 
 }

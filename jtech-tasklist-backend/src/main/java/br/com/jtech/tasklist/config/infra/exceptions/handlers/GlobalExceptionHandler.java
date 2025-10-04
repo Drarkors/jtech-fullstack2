@@ -53,6 +53,11 @@ public class GlobalExceptionHandler {
     return buildResponseEntity(error);
   }
 
+  @ExceptionHandler(ApiError.class)
+  public ResponseEntity<ApiError> handleApiErrors(ApiError error) {
+    return buildResponseEntity(error);
+  }
+
   private ResponseEntity<ApiError> buildResponseEntity(ApiError apiError) {
     return new ResponseEntity<>(apiError, apiError.getStatus());
   }
