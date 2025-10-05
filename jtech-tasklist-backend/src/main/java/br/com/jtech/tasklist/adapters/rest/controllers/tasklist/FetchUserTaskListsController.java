@@ -24,7 +24,7 @@ public class FetchUserTaskListsController {
   private final FetchUserTaskListsInputGateway inputGateway;
 
   @GetMapping
-  public ResponseEntity<Set<FetchUserTaskListsResponse>> fetchUserTaskLists(HttpServletRequest request) {
+  public ResponseEntity<Set<FetchUserTaskListsResponse>> fetchByUser(HttpServletRequest request) {
     var userId = request.getAttribute("user_id").toString();
     var taskLists = this.inputGateway.fetchTaskLists(userId);
 

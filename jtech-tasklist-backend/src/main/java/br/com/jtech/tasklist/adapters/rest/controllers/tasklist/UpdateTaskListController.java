@@ -24,9 +24,9 @@ public class UpdateTaskListController {
   private final UpdateTaskListInputGateway inputGateway;
 
   @PatchMapping("/{id}")
-  public ResponseEntity<?> getById(HttpServletRequest request,
-                                   @PathVariable("id") String taskId,
-                                   @RequestBody UpdateTaskListInputDTO body) {
+  public ResponseEntity<?> update(HttpServletRequest request,
+                                  @PathVariable("id") String taskId,
+                                  @RequestBody UpdateTaskListInputDTO body) {
     var userId = request.getAttribute("user_id").toString();
     var taskList = this.inputGateway.update(body, taskId, userId);
 
