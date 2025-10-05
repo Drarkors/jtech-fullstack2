@@ -1,4 +1,4 @@
-package br.com.jtech.tasklist.adapters.rest.controllers;
+package br.com.jtech.tasklist.adapters.rest.controllers.task;
 
 import br.com.jtech.tasklist.application.core.entities.Task;
 import br.com.jtech.tasklist.application.ports.input.task.GetTaskByIdInputGateway;

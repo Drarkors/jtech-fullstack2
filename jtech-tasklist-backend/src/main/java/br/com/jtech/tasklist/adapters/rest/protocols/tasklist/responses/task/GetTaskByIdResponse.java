@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 
 /**
  * class GetTaskByIdResponse
@@ -27,7 +28,7 @@ public class GetTaskByIdResponse {
   private Integer order;
   private String taskListId;
 
-  public static GetTaskByIdResponse of(Task entity) {
+  public static GetTaskByIdResponse of(@Validated Task entity) {
     return GetTaskByIdResponse.builder()
       .id(entity.getId())
       .name(entity.getName())
