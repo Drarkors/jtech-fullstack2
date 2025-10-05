@@ -8,6 +8,7 @@ import br.com.jtech.tasklist.config.infra.utils.Jsons;
 import br.com.jtech.tasklist.factories.TaskListFactory;
 import br.com.jtech.tasklist.factories.UserFactory;
 import br.com.jtech.tasklist.utils.JWTUtils;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -26,6 +28,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Collections;
 import java.util.Objects;
+
+import static org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -51,6 +55,14 @@ public class FetchUserTaskListsControllerTest {
 
   @Autowired
   private JWTUtils jwtUtils;
+
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
+
+  @AfterEach
+  void tearDown() {
+    deleteFromTables(jdbcTemplate, "task", "task_list", "task_list_user");
+  }
 
   @BeforeEach
   void setup() {

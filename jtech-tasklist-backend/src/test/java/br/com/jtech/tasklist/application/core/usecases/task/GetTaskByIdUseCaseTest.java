@@ -67,7 +67,6 @@ public class GetTaskByIdUseCaseTest {
       .taskList(list)
       .build();
 
-
     when(this.repository.findById(eq(UUID.fromString(id))))
       .thenReturn(Optional.of(task.toModel()));
 
