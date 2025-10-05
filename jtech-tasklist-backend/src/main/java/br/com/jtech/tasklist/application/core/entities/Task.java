@@ -64,7 +64,7 @@ public class Task {
       .description(model.getDescription())
       .order(model.getOrder())
       .isDone(model.getIsDone())
-      .taskList(model.getTaskList() != null ? TaskList.of(model.getTaskList()) : null)
+//      .taskList(model.getTaskList() != null ? TaskList.of(model.getTaskList()) : null)
       .build();
   }
 
@@ -76,7 +76,7 @@ public class Task {
       .description(getDescription())
       .order(getOrder())
       .isDone(getIsDone())
-      .taskList(getTaskList() != null ? getTaskList().toModel() : null)
+//      .taskList(getTaskList() != null ? getTaskList().toModel() : null)
       .build();
   }
 

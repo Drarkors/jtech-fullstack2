@@ -10,9 +10,9 @@
  *  license agreement you entered into with J-Tech.
  *
  */
-package br.com.jtech.tasklist.adapters.rest.protocols.tasklist.responses;
+package br.com.jtech.tasklist.adapters.rest.protocols.tasklist.responses.tasklist;
 
-import br.com.jtech.tasklist.adapters.database.repositories.models.TaskListModel;
+import br.com.jtech.tasklist.adapters.rest.protocols.tasklist.responses.task.GetTaskByIdResponse;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -20,13 +20,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
- * class TaskListResponse
+ * class GetTaskListByIdResponse
  * <p>
  * user rafael.zanetti
  */
@@ -36,26 +36,22 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TaskListResponse implements Serializable {
-  List<TaskListResponse> responses;
+public class GetTaskListByIdResponse implements Serializable {
+
   private String id;
+  private String name;
+  private String description;
+  private Integer order;
+  private Set<GetTaskByIdResponse> tasks;
 
-  public static TaskListResponse of(TaskList tasklist) {
-    return TaskListResponse.builder()
-      .id(tasklist.getId())
+  public static GetTaskListByIdResponse of(TaskList entity) {
+    return GetTaskListByIdResponse.builder()
+      .id(entity.getId())
+      .name(entity.getName())
+      .description(entity.getDescription())
+      .order(entity.getOrder())
+      .tasks(entity.getTasks().stream().map(GetTaskByIdResponse::of).collect(Collectors.toSet()))
       .build();
   }
 
-  public static TaskListResponse of(List<TaskListModel> entities) {
-    var list = entities.stream().map(TaskListResponse::of).toList();
-    return TaskListResponse.builder()
-      .responses(list)
-      .build();
-  }
-
-  public static TaskListResponse of(TaskListModel entity) {
-    var response = new TaskListResponse();
-    BeanUtils.copyProperties(entity, response);
-    return response;
-  }
 }

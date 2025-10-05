@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +14,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -28,7 +32,13 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "tasklist_user")
+@Entity(name = "task_list_user")
+@Table(name = "task_list_user", indexes = {
+  @Index(columnList = "id"),
+  @Index(name = "deletedIndex", columnList = "id, is_deleted")
+})
+@SQLDelete(sql = "UPDATE task_list_user SET is_deleted = true WHERE id=?")
+@SQLRestriction("is_deleted = false")
 public class UserModel {
 
   @Id
@@ -36,7 +46,7 @@ public class UserModel {
   @UuidGenerator
   private UUID id;
 
-  @Column(nullable = false, unique = true, length = 30)
+  @Column(nullable = false, unique = true, length = 30, name = "user_name")
   @Size(max = 30, min = 4)
   private String userName;
 
@@ -44,9 +54,10 @@ public class UserModel {
   @Size(max = 30, min = 4)
   private String password;
 
-  @Column
+  @Builder.Default
+  @Column(name = "is_deleted")
   @ColumnDefault(value = "false")
-  private boolean isDeleted;
+  private boolean isDeleted = false;
 
   @CreationTimestamp
   private LocalDateTime createdAt;

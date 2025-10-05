@@ -28,5 +28,5 @@ import java.util.UUID;
 public interface TaskListRepository extends JpaRepository<TaskListModel, UUID> {
 
   Set<TaskListModel> findAllByUserId(UUID userId);
-  
+
 }

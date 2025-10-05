@@ -3,11 +3,11 @@ package br.com.jtech.tasklist.application.core.usecases.tasklist;
 import br.com.jtech.tasklist.adapters.database.repositories.TaskListRepository;
 import br.com.jtech.tasklist.adapters.database.tasklist.DeleteTaskListAdapter;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
-import br.com.jtech.tasklist.application.core.entities.User;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListNotFoundException;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 import br.com.jtech.tasklist.config.infra.utils.GenId;
 import br.com.jtech.tasklist.config.usecases.tasklist.DeleteTaskListUseCaseConfig;
+import br.com.jtech.tasklist.factories.TaskListFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,23 +45,14 @@ public class DeleteTaskListUseCaseTest {
   @Test
   @DisplayName("Should be able to delete a task list")
   void shouldDeleteTaskList() {
-    var id = GenId.newId();
-    var user = User.builder().id(GenId.newId()).build();
+    var list = TaskListFactory.fakeTaskList(GenId.newId());
 
-    var list = TaskList.builder()
-      .id(id)
-      .userId(user.getId())
-      .name("List")
-      .description("Description")
-      .order(0)
-      .build();
-
-    when(this.repository.findById(UUID.fromString(id)))
+    when(this.repository.findById(UUID.fromString(list.getId())))
       .thenReturn(Optional.of(list.toModel()));
 
-    this.useCase.delete(id, user.getId());
+    this.useCase.delete(list.getId(), list.getUserId());
 
-    verify(this.repository, times(1)).deleteById(eq(UUID.fromString(id)));
+    verify(this.repository, times(1)).deleteById(eq(UUID.fromString(list.getId())));
   }
 
   @Test

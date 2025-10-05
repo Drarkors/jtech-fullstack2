@@ -4,10 +4,10 @@ import br.com.jtech.tasklist.adapters.database.repositories.TaskListRepository;
 import br.com.jtech.tasklist.adapters.database.repositories.UserRepository;
 import br.com.jtech.tasklist.adapters.database.repositories.models.TaskListModel;
 import br.com.jtech.tasklist.adapters.database.tasklist.CreateTaskListAdapter;
-import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListUserNotFoundException;
 import br.com.jtech.tasklist.config.infra.utils.GenId;
 import br.com.jtech.tasklist.config.usecases.tasklist.CreateTaskListUseCaseConfig;
+import br.com.jtech.tasklist.factories.TaskListFactory;
 import br.com.jtech.tasklist.factories.UserFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -51,11 +51,7 @@ public class CreateTaskListUseCaseTest {
     var id = GenId.newId();
 
     var user = UserFactory.fakeUser();
-    var list = TaskList.builder()
-      .name("List")
-      .description("Description")
-      .order(0)
-      .build();
+    var list = TaskListFactory.fakeTaskListWithoutId();
 
     when(this.userRepository.findById(any()))
       .thenReturn(Optional.of(user.toModel()));
@@ -78,11 +74,7 @@ public class CreateTaskListUseCaseTest {
   @Test
   @DisplayName("Should not be able to create a task list and throw an TaskListUserNotFoundException")
   void shouldThrowTaskListUserNotFoundException() {
-    var list = TaskList.builder()
-      .name("List")
-      .description("Description")
-      .order(0)
-      .build();
+    var list = TaskListFactory.fakeTaskListWithoutId();
 
     when(this.userRepository.findById(any()))
       .thenReturn(Optional.empty());

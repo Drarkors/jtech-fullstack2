@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * class TaskListController
+ * class CreateTaskListController
  * <p>
  * user rafael.zanetti
  */
@@ -33,13 +33,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CreateTaskListController {
 
-  private final CreateTaskListInputGateway createTasklistInputGateway;
+  private final CreateTaskListInputGateway inputGateway;
 
   @PostMapping
   public ResponseEntity<Void> create(HttpServletRequest request, @RequestBody CreateTaskListRequest payload) {
     var userId = request.getAttribute("user_id").toString();
 
-    createTasklistInputGateway.create(payload.to(), userId);
+    inputGateway.create(payload.to(), userId);
     return ResponseEntity.noContent().build();
   }
 

@@ -1,9 +1,12 @@
 package br.com.jtech.tasklist.adapters.rest.controllers.tasklist;
 
+import br.com.jtech.tasklist.adapters.database.repositories.TaskListRepository;
+import br.com.jtech.tasklist.adapters.database.repositories.TaskRepository;
 import br.com.jtech.tasklist.adapters.database.repositories.UserRepository;
-import br.com.jtech.tasklist.adapters.rest.protocols.tasklist.requests.CreateTaskListRequest;
-import br.com.jtech.tasklist.config.infra.utils.GenId;
+import br.com.jtech.tasklist.adapters.rest.protocols.tasklist.responses.tasklist.GetTaskListByIdResponse;
 import br.com.jtech.tasklist.config.infra.utils.Jsons;
+import br.com.jtech.tasklist.factories.TaskFactory;
+import br.com.jtech.tasklist.factories.TaskListFactory;
 import br.com.jtech.tasklist.factories.UserFactory;
 import br.com.jtech.tasklist.utils.JWTUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,12 +25,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Collections;
 import java.util.Objects;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class CreateTaskListControllerTest {
+public class GetTaskListByIdControllerTest {
 
   private MockMvc mvc;
 
@@ -37,7 +41,15 @@ public class CreateTaskListControllerTest {
   @Autowired
   private UserRepository userRepository;
 
+  @Autowired
+  private TaskListRepository taskListRepository;
+
+  @Autowired
+  private TaskRepository taskRepository;
+
   private UserFactory userFactory;
+  private TaskFactory taskFactory;
+  private TaskListFactory taskListFactory;
 
   @Autowired
   private JWTUtils jwtUtils;
@@ -50,42 +62,28 @@ public class CreateTaskListControllerTest {
       .build();
 
     this.userFactory = new UserFactory(this.userRepository);
+    this.taskFactory = new TaskFactory(this.taskRepository, this.taskListRepository);
+    this.taskListFactory = new TaskListFactory(this.taskListRepository);
   }
 
   @Test
-  @DisplayName("Should be able to create a new task list")
+  @DisplayName("Should be able to get a task list by it's id")
   void shouldCreateTaskList() throws Exception {
     var user = userFactory.makeUser();
 
-    var payload = CreateTaskListRequest.builder()
-      .name("Task List")
-      .order(0)
-      .description("Description for task list")
-      .build();
+    var taskList = this.taskListFactory.makeTaskList(user);
+    var task = this.taskFactory.makeTask(taskList.getId());
+
+    taskList.setTasks(Collections.singleton(task));
 
     mvc.perform(
-      MockMvcRequestBuilders.post("/api/v1/task-lists")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(Objects.requireNonNull(Jsons.toJsonString(payload)))
-        .header("Authorization", jwtUtils.generateToken(user.getId()))
-    ).andExpect(MockMvcResultMatchers.status().isNoContent());
-  }
-
-  @Test
-  @DisplayName("Should not be able to create a new task list if userId is invalid")
-  void shouldThrowTaskListUserNotFoundException() throws Exception {
-    var payload = CreateTaskListRequest.builder()
-      .name("Task List")
-      .order(0)
-      .description("Description for task list")
-      .build();
-
-    mvc.perform(
-      MockMvcRequestBuilders.post("/api/v1/task-lists")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(Objects.requireNonNull(Jsons.toJsonString(payload)))
-        .header("Authorization", jwtUtils.generateToken(GenId.newId()))
-    ).andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+        MockMvcRequestBuilders.get("/api/v1/task-list/" + taskList.getId())
+          .contentType(MediaType.APPLICATION_JSON)
+          .header("Authorization", jwtUtils.generateToken(user.getId()))
+      ).andExpect(MockMvcResultMatchers.status().isOk())
+      .andExpect(MockMvcResultMatchers.content().json(
+        Objects.requireNonNull(Jsons.toJsonString(GetTaskListByIdResponse.of(taskList))))
+      );
   }
 
 }

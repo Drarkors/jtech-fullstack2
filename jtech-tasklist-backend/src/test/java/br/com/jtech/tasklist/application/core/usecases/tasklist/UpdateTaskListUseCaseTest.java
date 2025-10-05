@@ -98,9 +98,6 @@ public class UpdateTaskListUseCaseTest {
     var id = GenId.newId();
     var userId = GenId.newId();
 
-    var newOrder = 1;
-    var newName = "List - Updated";
-
     var list = TaskList.builder()
       .id(id)
       .userId(GenId.newId())

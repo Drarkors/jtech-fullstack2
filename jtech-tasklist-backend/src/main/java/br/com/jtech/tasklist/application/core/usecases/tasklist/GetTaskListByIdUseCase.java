@@ -25,6 +25,9 @@ public class GetTaskListByIdUseCase implements GetTaskListByIdInputGateway {
       throw new UnauthorizedException();
     }
 
+    var tasks = this.outputGateway.findAllTasksByTaskListId(entity.getId());
+    entity.setTasks(tasks);
+
     return entity;
   }
 }

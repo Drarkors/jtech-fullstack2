@@ -6,10 +6,7 @@ import br.com.jtech.tasklist.config.infra.utils.GenId;
 
 public class UserFactory {
 
-  private UserRepository repository;
-
-  public UserFactory() {
-  }
+  private final UserRepository repository;
 
   public UserFactory(UserRepository repository) {
     this.repository = repository;

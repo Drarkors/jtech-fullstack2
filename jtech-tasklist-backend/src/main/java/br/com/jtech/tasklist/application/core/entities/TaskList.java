@@ -26,10 +26,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 /**
@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 @Setter
 @Builder
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "tasks")
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskList {
@@ -68,7 +68,8 @@ public class TaskList {
   @Max(value = Integer.MAX_VALUE, message = "Field \"order\" can go up to " + Integer.MAX_VALUE)
   private Integer order;
 
-  private Set<Task> tasks;
+  @Builder.Default
+  private Set<Task> tasks = new HashSet<>();
 
   public static List<TaskList> of(List<TaskListModel> entities) {
     return entities.stream().map(TaskList::of).toList();
@@ -81,7 +82,6 @@ public class TaskList {
       .name(entity.getName())
       .description(entity.getDescription())
       .order(entity.getOrder())
-      .tasks(entity.getTasks() != null ? entity.getTasks().stream().map(Task::of).collect(Collectors.toSet()) : null)
       .build();
   }
 
@@ -92,7 +92,6 @@ public class TaskList {
       .name(getName())
       .description(getDescription())
       .order(getOrder())
-      .tasks(getTasks() != null ? getTasks().stream().map(Task::toModel).collect(Collectors.toSet()) : null)
       .build();
   }
 }

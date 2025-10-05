@@ -1,6 +1,7 @@
 package br.com.jtech.tasklist.application.core.usecases.tasklist;
 
 import br.com.jtech.tasklist.adapters.database.repositories.TaskListRepository;
+import br.com.jtech.tasklist.adapters.database.repositories.TaskRepository;
 import br.com.jtech.tasklist.adapters.database.tasklist.GetTaskListByIdAdapter;
 import br.com.jtech.tasklist.application.core.entities.Task;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
@@ -23,7 +24,6 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -32,6 +32,9 @@ public class GetTaskListByIdUseCaseTest {
 
   @Mock
   TaskListRepository repository;
+
+  @Mock
+  TaskRepository taskRepository;
 
   @InjectMocks
   GetTaskListByIdAdapter adapter;
@@ -65,16 +68,16 @@ public class GetTaskListByIdUseCaseTest {
       .name("List")
       .description("Description")
       .order(0)
-      .tasks(Collections.singleton(task))
       .build();
 
     when(this.repository.findById(UUID.fromString(id)))
       .thenReturn(Optional.of(list.toModel()));
+    when(this.taskRepository.findAllByTaskListId(UUID.fromString(id)))
+      .thenReturn(Collections.singleton(task.toModel()));
 
     var result = this.useCase.getById(id, user.getId());
 
     assertEquals(list, result);
-    assertTrue(list.getTasks().contains(task));
   }
 
   @Test
@@ -109,7 +112,6 @@ public class GetTaskListByIdUseCaseTest {
       .name("List")
       .description("Description")
       .order(0)
-      .tasks(Collections.singleton(task))
       .build();
 
     when(this.repository.findById(UUID.fromString(id)))

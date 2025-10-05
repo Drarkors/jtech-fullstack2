@@ -12,16 +12,13 @@
  */
 package br.com.jtech.tasklist.adapters.database.repositories.models;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -39,7 +36,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -52,13 +48,13 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "tasklist")
-@Table(name = "tasklist", indexes = {
+@Entity(name = "task_list")
+@Table(name = "task_list", indexes = {
   @Index(columnList = "id"),
-  @Index(name = "deletedIndex", columnList = "id, isDeleted")
+  @Index(name = "deletedIndex", columnList = "id, is_deleted")
 })
-@SQLDelete(sql = "UPDATE task_list SET isDeleted = true WHERE id=?")
-@SQLRestriction("isDeleted = false")
+@SQLDelete(sql = "UPDATE task_list SET is_deleted = true WHERE id=?")
+@SQLRestriction("is_deleted = false")
 public class TaskListModel {
 
   @Id
@@ -83,9 +79,10 @@ public class TaskListModel {
   @ColumnDefault(value = "0")
   private Integer order;
 
-  @Column
+  @Column(name = "is_deleted")
   @ColumnDefault(value = "false")
-  private Boolean isDeleted;
+  @Builder.Default
+  private boolean isDeleted = false;
 
   @CreationTimestamp
   private LocalDateTime createdAt;
@@ -96,9 +93,5 @@ public class TaskListModel {
   @ManyToOne
   @JoinColumn(name = "user_id", updatable = false, insertable = false)
   private UserModel user;
-
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinColumn(name = "id", insertable = false, updatable = false)
-  private Set<TaskModel> tasks;
 
 }
