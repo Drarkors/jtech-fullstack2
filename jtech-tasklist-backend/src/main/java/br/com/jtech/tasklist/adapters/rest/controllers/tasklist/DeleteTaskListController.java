@@ -21,7 +21,7 @@ public class DeleteTaskListController {
   private final DeleteTaskListInputGateway inputGateway;
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<?> delete(HttpServletRequest request, @PathVariable("id") String taskId) {
+  public ResponseEntity<Void> delete(HttpServletRequest request, @PathVariable("id") String taskId) {
     var userId = request.getAttribute("user_id").toString();
     this.inputGateway.delete(taskId, userId);
 
