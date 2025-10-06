@@ -13,10 +13,11 @@
  */
 package br.com.jtech.tasklist.adapters.rest.controllers.tasklist;
 
-import br.com.jtech.tasklist.adapters.rest.protocols.tasklist.requests.CreateTaskListRequest;
+import br.com.jtech.tasklist.adapters.rest.protocols.tasklist.requests.tasklist.CreateTaskListRequest;
 import br.com.jtech.tasklist.application.ports.input.tasklist.CreateTaskListInputGateway;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,7 +41,7 @@ public class CreateTaskListController {
     var userId = request.getAttribute("user_id").toString();
 
     inputGateway.create(payload.to(), userId);
-    return ResponseEntity.noContent().build();
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
 }

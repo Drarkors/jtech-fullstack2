@@ -10,9 +10,9 @@
  *  license agreement you entered into with J-Tech.
  *
  */
-package br.com.jtech.tasklist.adapters.rest.protocols.tasklist.requests;
+package br.com.jtech.tasklist.adapters.rest.protocols.tasklist.requests.task;
 
-import br.com.jtech.tasklist.application.core.entities.TaskList;
+import br.com.jtech.tasklist.application.core.entities.Task;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotEmpty;
@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * class TasklistRequest
+ * class CreateTaskRequest
  * <p>
  * user rafael.zanetti
  */
@@ -35,7 +35,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CreateTaskListRequest implements Serializable {
+public class CreateTaskRequest implements Serializable {
+
   @NotNull
   @NotEmpty
   @Size(min = 4, max = 100, message = "Field \"name\" must have from 4 up to 100 characters")
@@ -48,11 +49,17 @@ public class CreateTaskListRequest implements Serializable {
   @Max(value = Integer.MAX_VALUE, message = "Field \"order\" can go up to " + Integer.MAX_VALUE)
   private Integer order;
 
-  public TaskList to() {
-    return TaskList.builder()
+  @NotNull
+  @NotEmpty
+  private String taskListId;
+
+  public Task to() {
+    return Task.builder()
       .name(this.name)
       .description(this.description)
       .order(this.order)
+      .taskListId(taskListId)
       .build();
   }
+
 }

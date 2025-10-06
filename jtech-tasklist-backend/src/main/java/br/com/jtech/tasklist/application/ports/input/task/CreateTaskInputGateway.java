@@ -9,6 +9,6 @@ import br.com.jtech.tasklist.application.core.entities.Task;
  */
 public interface CreateTaskInputGateway {
 
-  Task create(Task task);
+  Task create(Task task, String userId);
 
 }

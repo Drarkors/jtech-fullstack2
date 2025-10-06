@@ -5,6 +5,7 @@ import br.com.jtech.tasklist.application.core.usecases.task.exceptions.TaskAlrea
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListNotFoundException;
 import br.com.jtech.tasklist.application.ports.input.task.CreateTaskInputGateway;
 import br.com.jtech.tasklist.application.ports.output.task.CreateTaskOutputGateway;
+import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 
 /**
  * class CreateTaskUseCase
@@ -19,12 +20,17 @@ public class CreateTaskUseCase implements CreateTaskInputGateway {
     this.outputGateway = outputGateway;
   }
 
-  public Task create(Task task) {
-    var taskListExists = this.outputGateway.getTaskListFromTask(task.getTaskListId())
-      .isPresent();
+  public Task create(Task task, String userId) {
+    var taskListOptional = this.outputGateway.getTaskListFromTask(task.getTaskListId());
 
-    if (!taskListExists) {
+    if (taskListOptional.isEmpty()) {
       throw new TaskListNotFoundException();
+    }
+
+    var taskList = taskListOptional.get();
+
+    if (!taskList.getUserId().equals(userId)) {
+      throw new UnauthorizedException();
     }
 
     var taskAlreadyExists = this.outputGateway.findByNameAndTaskList(task.getName(),

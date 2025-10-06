@@ -3,9 +3,8 @@ package br.com.jtech.tasklist.adapters.rest.controllers.task;
 import br.com.jtech.tasklist.adapters.database.repositories.TaskListRepository;
 import br.com.jtech.tasklist.adapters.database.repositories.TaskRepository;
 import br.com.jtech.tasklist.adapters.database.repositories.UserRepository;
-import br.com.jtech.tasklist.adapters.rest.protocols.tasklist.responses.task.GetTaskByIdResponse;
+import br.com.jtech.tasklist.adapters.rest.protocols.tasklist.requests.task.CreateTaskRequest;
 import br.com.jtech.tasklist.config.infra.utils.Jsons;
-import br.com.jtech.tasklist.factories.TaskFactory;
 import br.com.jtech.tasklist.factories.TaskListFactory;
 import br.com.jtech.tasklist.factories.UserFactory;
 import br.com.jtech.tasklist.utils.JWTUtils;
@@ -34,7 +33,7 @@ import static org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class GetTaskByIdControllerTest {
+public class CreateTaskControllerTest {
 
   private MockMvc mvc;
 
@@ -51,7 +50,6 @@ public class GetTaskByIdControllerTest {
   private TaskRepository taskRepository;
 
   private UserFactory userFactory;
-  private TaskFactory taskFactory;
   private TaskListFactory taskListFactory;
 
   @Autowired
@@ -73,26 +71,29 @@ public class GetTaskByIdControllerTest {
       .build();
 
     this.userFactory = new UserFactory(this.userRepository);
-    this.taskFactory = new TaskFactory(this.taskRepository, this.taskListRepository);
     this.taskListFactory = new TaskListFactory(this.taskListRepository);
   }
 
   @Test
-  @DisplayName("Should be able to get a task by it's id")
-  void shouldGetTaskById() throws Exception {
+  @DisplayName("Should be able to create a task")
+  void shouldCreateTask() throws Exception {
     var user = userFactory.makeUser();
 
     var taskList = this.taskListFactory.makeTaskList(user);
-    var task = this.taskFactory.makeTask(taskList.getId());
+
+    var payload = CreateTaskRequest.builder()
+      .name("Task")
+      .description("Description")
+      .order(0)
+      .taskListId(taskList.getId())
+      .build();
 
     mvc.perform(
-        MockMvcRequestBuilders.get("/api/v1/task/" + task.getId())
-          .contentType(MediaType.APPLICATION_JSON)
-          .header("Authorization", jwtUtils.generateToken(user.getId()))
-      ).andExpect(MockMvcResultMatchers.status().isOk())
-      .andExpect(MockMvcResultMatchers.content().json(
-        Objects.requireNonNull(Jsons.toJsonString(GetTaskByIdResponse.of(task))))
-      );
+      MockMvcRequestBuilders.post("/api/v1/task")
+        .contentType(MediaType.APPLICATION_JSON)
+        .header("Authorization", jwtUtils.generateToken(user.getId()))
+        .content(Objects.requireNonNull(Jsons.toJsonString(payload)))
+    ).andExpect(MockMvcResultMatchers.status().isCreated());
   }
 
 }

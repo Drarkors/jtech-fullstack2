@@ -9,6 +9,7 @@ import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.entities.User;
 import br.com.jtech.tasklist.application.core.usecases.task.exceptions.TaskAlreadyExistsException;
 import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskListNotFoundException;
+import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 import br.com.jtech.tasklist.config.infra.utils.GenId;
 import br.com.jtech.tasklist.config.usecases.task.CreateTaskUseCaseConfig;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,7 +79,7 @@ public class CreateTaskUseCaseTest {
       return task.toModel();
     });
 
-    var result = this.useCase.create(task);
+    var result = this.useCase.create(task, user.getId());
 
     assertEquals(task.getId(), result.getId());
     assertEquals(task.getName(), result.getName());
@@ -99,7 +100,7 @@ public class CreateTaskUseCaseTest {
 
     when(this.taskListRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
 
-    assertThrows(TaskListNotFoundException.class, () -> this.useCase.create(task));
+    assertThrows(TaskListNotFoundException.class, () -> this.useCase.create(task, GenId.newId()));
 
     verify(this.taskRepository, times(0)).save(any(TaskModel.class));
   }
@@ -128,7 +129,34 @@ public class CreateTaskUseCaseTest {
     when(this.taskRepository.findByNameAndTaskListId(any(String.class), any(UUID.class)))
       .thenReturn(Optional.of(task.toModel()));
 
-    assertThrows(TaskAlreadyExistsException.class, () -> this.useCase.create(task));
+    assertThrows(TaskAlreadyExistsException.class, () -> this.useCase.create(task, user.getId()));
+
+    verify(this.taskRepository, times(0)).save(any(TaskModel.class));
+  }
+
+  @Test
+  @DisplayName("Should not be able create a task it's user doesn't match the task list owner")
+  void shouldThrowTaskUnauthorizedException() {
+    var user = User.builder().id(GenId.newId()).build();
+
+    var list = TaskList.builder()
+      .id(GenId.newId())
+      .userId(user.getId())
+      .name("List")
+      .description("Description")
+      .order(0)
+      .build();
+
+    var task = Task.builder()
+      .id(GenId.newId())
+      .taskListId(list.getId())
+      .name("New task")
+      .build();
+
+    when(this.taskListRepository.findById(eq(UUID.fromString(list.getId()))))
+      .thenReturn(Optional.of(list.toModel()));
+    
+    assertThrows(UnauthorizedException.class, () -> this.useCase.create(task, GenId.newId()));
 
     verify(this.taskRepository, times(0)).save(any(TaskModel.class));
   }

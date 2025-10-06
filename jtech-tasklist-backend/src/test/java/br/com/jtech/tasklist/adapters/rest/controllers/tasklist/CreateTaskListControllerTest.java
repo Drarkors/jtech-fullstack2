@@ -1,7 +1,7 @@
 package br.com.jtech.tasklist.adapters.rest.controllers.tasklist;
 
 import br.com.jtech.tasklist.adapters.database.repositories.UserRepository;
-import br.com.jtech.tasklist.adapters.rest.protocols.tasklist.requests.CreateTaskListRequest;
+import br.com.jtech.tasklist.adapters.rest.protocols.tasklist.requests.tasklist.CreateTaskListRequest;
 import br.com.jtech.tasklist.config.infra.utils.GenId;
 import br.com.jtech.tasklist.config.infra.utils.Jsons;
 import br.com.jtech.tasklist.factories.UserFactory;
@@ -80,7 +80,7 @@ public class CreateTaskListControllerTest {
         .contentType(MediaType.APPLICATION_JSON)
         .content(Objects.requireNonNull(Jsons.toJsonString(payload)))
         .header("Authorization", jwtUtils.generateToken(user.getId()))
-    ).andExpect(MockMvcResultMatchers.status().isNoContent());
+    ).andExpect(MockMvcResultMatchers.status().isCreated());
   }
 
   @Test
