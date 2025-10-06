@@ -34,7 +34,6 @@ public class UpdateTaskUseCase implements UpdateTaskInputGateway {
 
     entity.setName(dto.name());
     entity.setDescription(dto.description());
-    entity.setOrder(dto.order());
 
     return this.outputGateway.update(entity);
   }

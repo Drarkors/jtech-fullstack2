@@ -68,7 +68,7 @@ public class UpdateTaskUseCaseTest {
       .taskList(list)
       .build();
 
-    var dto = new UpdateTaskInputDTO("Task - Updated", "Description - Updated", 1);
+    var dto = new UpdateTaskInputDTO("Task - Updated", "Description - Updated");
 
     when(this.repository.findById(UUID.fromString(id)))
       .thenReturn(Optional.of(task.toModel()));
@@ -78,7 +78,6 @@ public class UpdateTaskUseCaseTest {
 
     assertEquals(dto.name(), result.getName());
     assertEquals(dto.description(), result.getDescription());
-    assertEquals(dto.order(), result.getOrder());
   }
 
   @Test
@@ -87,7 +86,7 @@ public class UpdateTaskUseCaseTest {
     var id = GenId.newId();
     var userId = GenId.newId();
 
-    var dto = new UpdateTaskInputDTO("Task - Updated", "Description - Updated", 1);
+    var dto = new UpdateTaskInputDTO("Task - Updated", "Description - Updated");
 
     when(this.repository.findById(any(UUID.class)))
       .thenReturn(Optional.empty());
@@ -120,7 +119,7 @@ public class UpdateTaskUseCaseTest {
       .taskList(list)
       .build();
 
-    var dto = new UpdateTaskInputDTO("Task - Updated", "Description - Updated", 1);
+    var dto = new UpdateTaskInputDTO("Task - Updated", "Description - Updated");
 
     when(this.repository.findById(UUID.fromString(id)))
       .thenReturn(Optional.of(task.toModel()));

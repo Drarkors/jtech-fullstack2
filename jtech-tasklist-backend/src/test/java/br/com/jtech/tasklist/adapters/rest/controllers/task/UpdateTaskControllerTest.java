@@ -1,10 +1,12 @@
-package br.com.jtech.tasklist.adapters.rest.controllers.tasklist;
+package br.com.jtech.tasklist.adapters.rest.controllers.task;
 
 import br.com.jtech.tasklist.adapters.database.repositories.TaskListRepository;
+import br.com.jtech.tasklist.adapters.database.repositories.TaskRepository;
 import br.com.jtech.tasklist.adapters.database.repositories.UserRepository;
-import br.com.jtech.tasklist.adapters.rest.protocols.tasklist.responses.tasklist.UpdateTaskListResponse;
-import br.com.jtech.tasklist.application.ports.input.tasklist.dtos.UpdateTaskListInputDTO;
+import br.com.jtech.tasklist.adapters.rest.protocols.tasklist.responses.task.GetTaskByIdResponse;
+import br.com.jtech.tasklist.application.ports.input.task.dtos.UpdateTaskInputDTO;
 import br.com.jtech.tasklist.config.infra.utils.Jsons;
+import br.com.jtech.tasklist.factories.TaskFactory;
 import br.com.jtech.tasklist.factories.TaskListFactory;
 import br.com.jtech.tasklist.factories.UserFactory;
 import br.com.jtech.tasklist.utils.JWTUtils;
@@ -33,7 +35,7 @@ import static org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class UpdateTaskListControllerTest {
+public class UpdateTaskControllerTest {
 
   private MockMvc mvc;
 
@@ -46,7 +48,11 @@ public class UpdateTaskListControllerTest {
   @Autowired
   private TaskListRepository taskListRepository;
 
+  @Autowired
+  private TaskRepository taskRepository;
+
   private UserFactory userFactory;
+  private TaskFactory taskFactory;
   private TaskListFactory taskListFactory;
 
   @Autowired
@@ -68,33 +74,31 @@ public class UpdateTaskListControllerTest {
       .build();
 
     this.userFactory = new UserFactory(this.userRepository);
+    this.taskFactory = new TaskFactory(this.taskRepository, this.taskListRepository);
     this.taskListFactory = new TaskListFactory(this.taskListRepository);
   }
 
   @Test
-  @DisplayName("Should be able to update a task list")
-  void shouldUpdateTaskList() throws Exception {
+  @DisplayName("Should be able to update a task")
+  void shouldUpdateTask() throws Exception {
     var user = userFactory.makeUser();
 
     var taskList = this.taskListFactory.makeTaskList(user);
+    var task = this.taskFactory.makeTask(taskList.getId());
+    var updateBody = new UpdateTaskInputDTO("New task name", "New description");
 
-    taskList.setName("Updated Name");
-    taskList.setDescription("Updated Description");
-    taskList.setOrder(1);
+    task.setName(updateBody.name());
+    task.setDescription(updateBody.description());
 
     mvc.perform(
-        MockMvcRequestBuilders.put("/api/v1/task-list/" + taskList.getId())
+        MockMvcRequestBuilders.put("/api/v1/task/" + task.getId())
           .contentType(MediaType.APPLICATION_JSON)
           .header("Authorization", jwtUtils.generateToken(user.getId()))
-          .content(Objects.requireNonNull(
-            Jsons.toJsonString(new UpdateTaskListInputDTO(
-              taskList.getName(), taskList.getDescription(), taskList.getOrder()))
-          ))
-      )
-      .andExpect(MockMvcResultMatchers.status().isOk())
+          .content(Objects.requireNonNull(Jsons.toJsonString(updateBody)))
+      ).andExpect(MockMvcResultMatchers.status().isOk())
       .andExpect(MockMvcResultMatchers.content().json(
-        Objects.requireNonNull(Jsons.toJsonString(UpdateTaskListResponse.of(taskList))))
-      );
+        Objects.requireNonNull(Jsons.toJsonString(GetTaskByIdResponse.of(task)))
+      ));
   }
 
 }

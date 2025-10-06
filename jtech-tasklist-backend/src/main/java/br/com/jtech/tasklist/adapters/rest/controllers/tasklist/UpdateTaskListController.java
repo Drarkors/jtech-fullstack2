@@ -6,8 +6,8 @@ import br.com.jtech.tasklist.application.ports.input.tasklist.dtos.UpdateTaskLis
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,10 +23,10 @@ public class UpdateTaskListController {
 
   private final UpdateTaskListInputGateway inputGateway;
 
-  @PatchMapping("/{id}")
-  public ResponseEntity<?> update(HttpServletRequest request,
-                                  @PathVariable("id") String taskId,
-                                  @RequestBody UpdateTaskListInputDTO body) {
+  @PutMapping("/{id}")
+  public ResponseEntity<GetTaskListByIdResponse> update(HttpServletRequest request,
+                                                        @PathVariable("id") String taskId,
+                                                        @RequestBody UpdateTaskListInputDTO body) {
     var userId = request.getAttribute("user_id").toString();
     var taskList = this.inputGateway.update(body, taskId, userId);
 
