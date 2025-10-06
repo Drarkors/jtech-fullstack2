@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class CreateTaskController {
   private final CreateTaskInputGateway inputGateway;
 
   @PostMapping
-  public ResponseEntity<Void> create(HttpServletRequest request, @RequestBody CreateTaskRequest payload) {
+  public ResponseEntity<Void> create(HttpServletRequest request, @Validated @RequestBody CreateTaskRequest payload) {
     var userId = request.getAttribute("user_id").toString();
     inputGateway.create(payload.to(), userId);
 

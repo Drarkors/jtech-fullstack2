@@ -6,6 +6,7 @@ import br.com.jtech.tasklist.application.ports.input.task.dtos.UpdateTaskInputDT
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +28,7 @@ public class UpdateTaskController {
   @PutMapping("/{id}")
   public ResponseEntity<GetTaskByIdResponse> update(HttpServletRequest request,
                                                     @PathVariable("id") String taskId,
-                                                    @RequestBody UpdateTaskInputDTO body) {
+                                                    @Validated @RequestBody UpdateTaskInputDTO body) {
     var userId = request.getAttribute("user_id").toString();
     var task = this.inputGateway.update(body, taskId, userId);
 

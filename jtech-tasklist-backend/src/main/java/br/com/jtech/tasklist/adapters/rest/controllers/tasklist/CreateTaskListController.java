@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +38,7 @@ public class CreateTaskListController {
   private final CreateTaskListInputGateway inputGateway;
 
   @PostMapping
-  public ResponseEntity<Void> create(HttpServletRequest request, @RequestBody CreateTaskListRequest payload) {
+  public ResponseEntity<Void> create(HttpServletRequest request, @Validated @RequestBody CreateTaskListRequest payload) {
     var userId = request.getAttribute("user_id").toString();
 
     inputGateway.create(payload.to(), userId);
