@@ -86,7 +86,7 @@ public class GetTaskByIdControllerTest {
     var task = this.taskFactory.makeTask(taskList.getId());
 
     mvc.perform(
-        MockMvcRequestBuilders.get("/api/v1/task/" + task.getId())
+        MockMvcRequestBuilders.get("/api/v1/tasks/" + task.getId())
           .contentType(MediaType.APPLICATION_JSON)
           .header("Authorization", jwtUtils.generateToken(user.getId()))
       ).andExpect(MockMvcResultMatchers.status().isOk())

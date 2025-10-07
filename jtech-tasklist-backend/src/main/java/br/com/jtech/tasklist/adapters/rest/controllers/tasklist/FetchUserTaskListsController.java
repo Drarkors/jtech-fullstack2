@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * user rafael.zanetti
  */
 @RestController
-@RequestMapping("/api/v1/task-list")
+@RequestMapping("/api/v1/task-lists")
 @RequiredArgsConstructor
 public class FetchUserTaskListsController {
 

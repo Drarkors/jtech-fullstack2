@@ -83,7 +83,7 @@ public class UpdateTaskListControllerTest {
     taskList.setOrder(1);
 
     mvc.perform(
-        MockMvcRequestBuilders.put("/api/v1/task-list/" + taskList.getId())
+        MockMvcRequestBuilders.put("/api/v1/task-lists/" + taskList.getId())
           .contentType(MediaType.APPLICATION_JSON)
           .header("Authorization", jwtUtils.generateToken(user.getId()))
           .content(Objects.requireNonNull(

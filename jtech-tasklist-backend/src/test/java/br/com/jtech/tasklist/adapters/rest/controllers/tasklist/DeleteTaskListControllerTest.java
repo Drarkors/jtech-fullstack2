@@ -78,7 +78,7 @@ public class DeleteTaskListControllerTest {
     taskList.setOrder(1);
 
     mvc.perform(
-        MockMvcRequestBuilders.delete("/api/v1/task-list/" + taskList.getId())
+        MockMvcRequestBuilders.delete("/api/v1/task-lists/" + taskList.getId())
           .contentType(MediaType.APPLICATION_JSON)
           .header("Authorization", jwtUtils.generateToken(user.getId()))
       )

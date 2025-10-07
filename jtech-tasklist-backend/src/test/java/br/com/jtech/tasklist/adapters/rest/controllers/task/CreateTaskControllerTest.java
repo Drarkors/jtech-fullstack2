@@ -89,7 +89,7 @@ public class CreateTaskControllerTest {
       .build();
 
     mvc.perform(
-      MockMvcRequestBuilders.post("/api/v1/task")
+      MockMvcRequestBuilders.post("/api/v1/tasks")
         .contentType(MediaType.APPLICATION_JSON)
         .header("Authorization", jwtUtils.generateToken(user.getId()))
         .content(Objects.requireNonNull(Jsons.toJsonString(payload)))

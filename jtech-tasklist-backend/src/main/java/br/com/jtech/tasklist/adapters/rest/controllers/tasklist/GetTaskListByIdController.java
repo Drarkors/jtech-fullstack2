@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * user rafael.zanetti
  */
 @RestController
-@RequestMapping("/api/v1/task-list")
+@RequestMapping("/api/v1/task-lists")
 @RequiredArgsConstructor
 public class GetTaskListByIdController {
 

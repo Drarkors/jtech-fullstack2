@@ -83,7 +83,7 @@ public class FetchUserTaskListsControllerTest {
     var taskList = this.taskListFactory.makeTaskList(user);
 
     mvc.perform(
-        MockMvcRequestBuilders.get("/api/v1/task-list")
+        MockMvcRequestBuilders.get("/api/v1/task-lists")
           .contentType(MediaType.APPLICATION_JSON)
           .header("Authorization", jwtUtils.generateToken(user.getId()))
       ).andExpect(MockMvcResultMatchers.status().isOk())

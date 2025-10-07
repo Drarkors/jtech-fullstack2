@@ -89,7 +89,7 @@ public class GetTaskListByIdControllerTest {
     taskList.setTasks(Collections.singleton(task));
 
     mvc.perform(
-        MockMvcRequestBuilders.get("/api/v1/task-list/" + taskList.getId())
+        MockMvcRequestBuilders.get("/api/v1/task-lists/" + taskList.getId())
           .contentType(MediaType.APPLICATION_JSON)
           .header("Authorization", jwtUtils.generateToken(user.getId()))
       ).andExpect(MockMvcResultMatchers.status().isOk())

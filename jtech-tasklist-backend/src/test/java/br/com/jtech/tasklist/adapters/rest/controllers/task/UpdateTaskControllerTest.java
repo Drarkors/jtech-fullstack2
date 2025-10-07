@@ -91,7 +91,7 @@ public class UpdateTaskControllerTest {
     task.setDescription(updateBody.description());
 
     mvc.perform(
-        MockMvcRequestBuilders.put("/api/v1/task/" + task.getId())
+        MockMvcRequestBuilders.put("/api/v1/tasks/" + task.getId())
           .contentType(MediaType.APPLICATION_JSON)
           .header("Authorization", jwtUtils.generateToken(user.getId()))
           .content(Objects.requireNonNull(Jsons.toJsonString(updateBody)))
