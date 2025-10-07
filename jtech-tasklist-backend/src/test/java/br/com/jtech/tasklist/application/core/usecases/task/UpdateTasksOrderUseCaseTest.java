@@ -6,7 +6,7 @@ import br.com.jtech.tasklist.application.core.entities.Task;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
 import br.com.jtech.tasklist.application.core.entities.User;
 import br.com.jtech.tasklist.application.core.usecases.task.exceptions.TasksNotFoundException;
-import br.com.jtech.tasklist.application.ports.input.task.dtos.UpdateTaskOrderDTO;
+import br.com.jtech.tasklist.application.ports.input.task.dtos.UpdateTaskOrderInputDTO;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 import br.com.jtech.tasklist.config.infra.utils.GenId;
 import br.com.jtech.tasklist.config.usecases.task.UpdateTasksOrderUseCaseConfig;
@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -66,7 +67,7 @@ public class UpdateTasksOrderUseCaseTest {
       .taskList(list)
       .build();
 
-    var dto = Collections.singletonList(new UpdateTaskOrderDTO(task.getId(), 1));
+    var dto = Collections.singletonList(new UpdateTaskOrderInputDTO(task.getId(), 1));
 
     when(this.repository.findAllById(any())).thenReturn(Collections.singletonList(task.toModel()));
     when(this.repository.saveAll(any())).thenAnswer((_p) -> {
@@ -74,7 +75,7 @@ public class UpdateTasksOrderUseCaseTest {
       return Collections.singletonList(task.toModel());
     });
 
-    var result = this.useCase.updateOrder(dto, user.getId()).stream().toList();
+    var result = this.useCase.updateOrder(new HashSet<>(dto), task.getTaskListId(), user.getId()).stream().toList();
 
     assertEquals(dto.get(0).newOrder(), result.get(0).getOrder());
   }
@@ -82,21 +83,18 @@ public class UpdateTasksOrderUseCaseTest {
   @Test
   @DisplayName("Should not be able update a task and throw an TaskNotFoundException")
   void shouldThrowTaskListNotFoundException() {
-    var id = GenId.newId();
     var userId = GenId.newId();
 
-    var dto = Collections.singletonList(new UpdateTaskOrderDTO(GenId.newId(), 1));
+    var dto = Collections.singletonList(new UpdateTaskOrderInputDTO(GenId.newId(), 1));
 
     when(this.repository.findAllById(any())).thenReturn(Collections.emptyList());
 
-    assertThrows(TasksNotFoundException.class, () -> this.useCase.updateOrder(dto, userId));
+    assertThrows(TasksNotFoundException.class, () -> this.useCase.updateOrder(new HashSet<>(dto), GenId.newId(), userId));
   }
 
   @Test
   @DisplayName("Should not be able update a task and throw an UnauthorizedException if given userId doesn't match it's userId")
   void shouldThrowUnauthorizedException() {
-    var id = GenId.newId();
-
     var user = User.builder().id(GenId.newId()).build();
 
     var list = TaskList.builder()
@@ -109,7 +107,7 @@ public class UpdateTasksOrderUseCaseTest {
 
     var task = Task.builder()
       .id(GenId.newId())
-      .taskListId(id)
+      .taskListId(list.getId())
       .name("Task")
       .description("Description")
       .order(0)
@@ -117,11 +115,12 @@ public class UpdateTasksOrderUseCaseTest {
       .taskList(list)
       .build();
 
-    var dto = Collections.singletonList(new UpdateTaskOrderDTO(task.getId(), 1));
+    var dto = Collections.singletonList(new UpdateTaskOrderInputDTO(task.getId(), 1));
 
     when(this.repository.findAllById(any())).thenReturn(Collections.singletonList(task.toModel()));
 
-    assertThrows(UnauthorizedException.class, () -> this.useCase.updateOrder(dto, GenId.newId()));
+    assertThrows(UnauthorizedException.class, () ->
+      this.useCase.updateOrder(new HashSet<>(dto), list.getId(), GenId.newId()));
   }
 
 }

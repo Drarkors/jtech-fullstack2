@@ -3,6 +3,7 @@ package br.com.jtech.tasklist.application.core.entities;
 import br.com.jtech.tasklist.adapters.database.repositories.models.TaskModel;
 import br.com.jtech.tasklist.config.infra.exceptions.constraints.UUIDConstraint;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -41,6 +42,7 @@ public class Task {
   private String description;
 
   @NotNull
+  @Min(value = 0, message = "Field \"order\" can not be lower than 0")
   @Max(value = Integer.MAX_VALUE, message = "Field \"order\" can go up to " + Integer.MAX_VALUE)
   private Integer order;
 

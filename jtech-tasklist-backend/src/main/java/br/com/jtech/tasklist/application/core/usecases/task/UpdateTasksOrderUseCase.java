@@ -1,15 +1,15 @@
 package br.com.jtech.tasklist.application.core.usecases.task;
 
 import br.com.jtech.tasklist.application.core.entities.Task;
+import br.com.jtech.tasklist.application.core.usecases.task.exceptions.TaskMismatchTaskListException;
 import br.com.jtech.tasklist.application.core.usecases.task.exceptions.TasksNotFoundException;
 import br.com.jtech.tasklist.application.ports.input.task.UpdateTasksOrderInputGateway;
-import br.com.jtech.tasklist.application.ports.input.task.dtos.UpdateTaskOrderDTO;
+import br.com.jtech.tasklist.application.ports.input.task.dtos.UpdateTaskOrderInputDTO;
 import br.com.jtech.tasklist.application.ports.output.task.UpdateTasksOrderOutputGateway;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,9 +25,9 @@ public class UpdateTasksOrderUseCase implements UpdateTasksOrderInputGateway {
   private final UpdateTasksOrderOutputGateway outputGateway;
 
   @Override
-  public Set<Task> updateOrder(List<UpdateTaskOrderDTO> tasksToUpdate, String userId) {
+  public Set<Task> updateOrder(Set<UpdateTaskOrderInputDTO> tasksToUpdate, String taskListId, String userId) {
     Set<String> ids = tasksToUpdate.stream()
-      .map(UpdateTaskOrderDTO::id)
+      .map(UpdateTaskOrderInputDTO::id)
       .collect(Collectors.toSet());
 
     Map<String, Task> entities = this.outputGateway.findAllByIds(ids.toArray(String[]::new));
@@ -36,13 +36,20 @@ public class UpdateTasksOrderUseCase implements UpdateTasksOrderInputGateway {
       throw new TasksNotFoundException();
     }
 
+    var mismatchedTaskListCount = entities.values().stream()
+      .filter(task -> !task.getTaskListId().equals(taskListId)).count();
+
+    if (mismatchedTaskListCount > 0) {
+      throw new TaskMismatchTaskListException();
+    }
+
     for (Task entity : entities.values()) {
       if (!entity.getTaskList().getUserId().equals(userId)) {
         throw new UnauthorizedException();
       }
     }
 
-    for (UpdateTaskOrderDTO taskUpdate : tasksToUpdate) {
+    for (UpdateTaskOrderInputDTO taskUpdate : tasksToUpdate) {
       Task task = entities.get(taskUpdate.id());
       task.setOrder(taskUpdate.newOrder());
     }

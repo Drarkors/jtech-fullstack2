@@ -40,4 +40,27 @@ public class TaskFactory {
     return entity;
   }
 
+  public Task makeTask(String taskListId, Integer order) {
+    if (taskListId == null) {
+      throw new RuntimeException("Can't build a task without a taskListId");
+    }
+
+    var taskListOptional = this.taskListRepository.findById(UUID.fromString(taskListId));
+
+    if (taskListOptional.isEmpty())
+      throw new RuntimeException("Can't build a task without a task list");
+
+    var entity = Task.builder()
+      .name("Task " + order.toString())
+      .description("Description")
+      .order(order)
+      .taskListId(taskListId)
+      .taskList(TaskList.of(taskListOptional.get()))
+      .build();
+
+    entity = Task.of(this.taskRepository.save(entity.toModel()));
+
+    return entity;
+  }
+
 }
