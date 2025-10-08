@@ -9,6 +9,6 @@ import br.com.jtech.tasklist.application.core.entities.Task;
  */
 public interface ToggleTaskIsDoneInputGateway {
 
-  Task markAsDone(String id, String userId);
+  Task toggleIsDone(String id, String userId);
 
 }

@@ -18,7 +18,7 @@ public class ToggleTaskIsDoneUseCase implements ToggleTaskIsDoneInputGateway {
   private final ToggleTaskIsDoneOutputGateway outputGateway;
 
   @Override
-  public Task markAsDone(String id, String userId) {
+  public Task toggleIsDone(String id, String userId) {
     var optional = this.outputGateway.findById(id);
 
     if (optional.isEmpty()) {
@@ -30,7 +30,7 @@ public class ToggleTaskIsDoneUseCase implements ToggleTaskIsDoneInputGateway {
     if (!entity.getTaskList().getUserId().equals(userId)) {
       throw new UnauthorizedException();
     }
-    
+
     entity.setIsDone(!entity.getIsDone());
 
     return this.outputGateway.update(entity);

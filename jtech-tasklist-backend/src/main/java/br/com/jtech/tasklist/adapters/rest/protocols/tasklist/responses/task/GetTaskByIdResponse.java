@@ -27,6 +27,7 @@ public class GetTaskByIdResponse {
   private String description;
   private Integer order;
   private String taskListId;
+  private Boolean isDone;
 
   public static GetTaskByIdResponse of(@Validated Task entity) {
     return GetTaskByIdResponse.builder()
@@ -34,6 +35,7 @@ public class GetTaskByIdResponse {
       .name(entity.getName())
       .description(entity.getDescription())
       .order(entity.getOrder())
+      .isDone(entity.getIsDone())
       .taskListId(entity.getTaskListId())
       .build();
   }

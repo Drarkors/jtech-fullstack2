@@ -73,7 +73,7 @@ public class ToggleTaskIsDoneUseCaseTest {
       .thenReturn(Optional.of(task.toModel()));
     when(this.repository.save(any(TaskModel.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-    var result = this.useCase.markAsDone(id, user.getId());
+    var result = this.useCase.toggleIsDone(id, user.getId());
 
     assertEquals(!isDone, result.getIsDone());
   }
@@ -87,7 +87,7 @@ public class ToggleTaskIsDoneUseCaseTest {
     when(this.repository.findById(any(UUID.class)))
       .thenReturn(Optional.empty());
 
-    assertThrows(TaskNotFoundException.class, () -> this.useCase.markAsDone(id, userId));
+    assertThrows(TaskNotFoundException.class, () -> this.useCase.toggleIsDone(id, userId));
   }
 
   @Test
@@ -118,7 +118,7 @@ public class ToggleTaskIsDoneUseCaseTest {
     when(this.repository.findById(UUID.fromString(id)))
       .thenReturn(Optional.of(task.toModel()));
 
-    assertThrows(UnauthorizedException.class, () -> this.useCase.markAsDone(id, GenId.newId()));
+    assertThrows(UnauthorizedException.class, () -> this.useCase.toggleIsDone(id, GenId.newId()));
   }
 
 }
