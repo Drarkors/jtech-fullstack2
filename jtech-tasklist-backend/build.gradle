@@ -6,6 +6,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.5.5'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'info.solidsoft.pitest' version '1.19.0-rc.2'
 }
 
 group = 'br.com.jtech.tasklist'
@@ -50,6 +51,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test:6.2.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.12.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.12.2'
 }
 
 test {
@@ -58,6 +61,17 @@ test {
     jvmArgs "-javaagent:${configurations.testRuntimeClasspath.find { it.name.contains('mockito-core') }.absolutePath}"
 
     maxParallelForks = 1
+}
+
+pitest {
+    verbose = true
+    // Update the JUnit 5 plugin version for compatibility with JUnit 5.10+
+    junit5PluginVersion = '1.2.1' // Or a later version like '1.2.3'
+
+    // Other recommended settings
+    pitestVersion = '1.20.3' // Use a modern PITest core version
+    threads = 4
+    timestampedReports = false
 }
 
 publishing {
