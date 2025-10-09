@@ -7,6 +7,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.naming.AuthenticationException;
 import java.time.Duration;
@@ -27,7 +28,7 @@ public class AuthenticateUserUseCase implements AuthenticateUserInputGateway {
   private final String issuer;
   private final Integer durationInMinutes;
 
-  @Override
+  @Transactional
   public AuthenticatedUserDTO authenticate(String userName, String password) throws AuthenticationException {
     var optional = this.outputGateway.findByUserName(userName);
 

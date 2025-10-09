@@ -6,6 +6,7 @@ import br.com.jtech.tasklist.application.ports.input.task.GetTaskByIdInputGatewa
 import br.com.jtech.tasklist.application.ports.output.task.GetTaskByIdOutputGateway;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * class GetTaskByIdUseCase
@@ -17,6 +18,7 @@ public class GetTaskByIdUseCase implements GetTaskByIdInputGateway {
 
   private final GetTaskByIdOutputGateway outputGateway;
 
+  @Transactional
   public Task getById(String id, String userId) {
     var optional = this.outputGateway.findById(id);
 

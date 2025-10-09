@@ -6,12 +6,14 @@ import br.com.jtech.tasklist.application.ports.input.tasklist.GetTaskListByIdInp
 import br.com.jtech.tasklist.application.ports.output.tasklist.GetTaskListByIdOutputGateway;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 public class GetTaskListByIdUseCase implements GetTaskListByIdInputGateway {
 
   private final GetTaskListByIdOutputGateway outputGateway;
 
+  @Transactional
   public TaskList getById(String taskListId, String userId) {
     var optional = this.outputGateway.findById(taskListId);
 

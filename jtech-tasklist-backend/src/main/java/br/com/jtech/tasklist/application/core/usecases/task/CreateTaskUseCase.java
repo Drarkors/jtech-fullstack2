@@ -6,6 +6,7 @@ import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskL
 import br.com.jtech.tasklist.application.ports.input.task.CreateTaskInputGateway;
 import br.com.jtech.tasklist.application.ports.output.task.CreateTaskOutputGateway;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * class CreateTaskUseCase
@@ -20,6 +21,7 @@ public class CreateTaskUseCase implements CreateTaskInputGateway {
     this.outputGateway = outputGateway;
   }
 
+  @Transactional
   public Task create(Task task, String userId) {
     var taskListOptional = this.outputGateway.getTaskListFromTask(task.getTaskListId());
 

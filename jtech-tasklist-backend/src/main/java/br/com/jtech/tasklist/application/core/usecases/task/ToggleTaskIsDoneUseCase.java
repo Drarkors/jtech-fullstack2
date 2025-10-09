@@ -6,6 +6,7 @@ import br.com.jtech.tasklist.application.ports.input.task.ToggleTaskIsDoneInputG
 import br.com.jtech.tasklist.application.ports.output.task.ToggleTaskIsDoneOutputGateway;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * class ToggleTaskIsDoneUseCase
@@ -17,7 +18,7 @@ public class ToggleTaskIsDoneUseCase implements ToggleTaskIsDoneInputGateway {
 
   private final ToggleTaskIsDoneOutputGateway outputGateway;
 
-  @Override
+  @Transactional
   public Task toggleIsDone(String id, String userId) {
     var optional = this.outputGateway.findById(id);
 

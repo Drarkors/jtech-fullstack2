@@ -6,6 +6,7 @@ import br.com.jtech.tasklist.application.ports.input.user.CreateUserInputGateway
 import br.com.jtech.tasklist.application.ports.output.user.CreateUserOutputGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * class CreateUserOutputGateway
@@ -19,7 +20,7 @@ public class CreateUserUseCase implements CreateUserInputGateway {
 
   private final PasswordEncoder passwordEncoder;
 
-  @Override
+  @Transactional
   public User create(User user) {
     var optional = this.outputGateway.findByUserName(user.getUserName());
 

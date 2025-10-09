@@ -18,6 +18,7 @@ import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskL
 import br.com.jtech.tasklist.application.ports.input.tasklist.CreateTaskListInputGateway;
 import br.com.jtech.tasklist.application.ports.output.tasklist.CreateTaskListOutputGateway;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * class CreateTaskListUseCase
@@ -29,6 +30,7 @@ public class CreateTaskListUseCase implements CreateTaskListInputGateway {
 
   private final CreateTaskListOutputGateway outputGateway;
 
+  @Transactional
   public TaskList create(TaskList tasklist, String userId) {
     var userExits = this.outputGateway.findUserById(userId)
       .isPresent();

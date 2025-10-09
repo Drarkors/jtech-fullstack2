@@ -5,6 +5,7 @@ import br.com.jtech.tasklist.application.ports.input.tasklist.DeleteTaskListInpu
 import br.com.jtech.tasklist.application.ports.output.tasklist.DeleteTaskListOutputGateway;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * class DeleteTaskListUseCase
@@ -17,7 +18,7 @@ public class DeleteTaskListUseCase implements DeleteTaskListInputGateway {
   private final DeleteTaskListOutputGateway outputGateway;
 
 
-  @Override
+  @Transactional
   public void delete(String id, String userId) {
     var output = outputGateway.findById(id);
 

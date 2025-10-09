@@ -8,6 +8,7 @@ import br.com.jtech.tasklist.application.ports.input.task.dtos.UpdateTaskOrderIn
 import br.com.jtech.tasklist.application.ports.output.task.UpdateTasksOrderOutputGateway;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class UpdateTasksOrderUseCase implements UpdateTasksOrderInputGateway {
 
   private final UpdateTasksOrderOutputGateway outputGateway;
 
-  @Override
+  @Transactional
   public Set<Task> updateOrder(Set<UpdateTaskOrderInputDTO> tasksToUpdate, String taskListId, String userId) {
     Set<String> ids = tasksToUpdate.stream()
       .map(UpdateTaskOrderInputDTO::id)

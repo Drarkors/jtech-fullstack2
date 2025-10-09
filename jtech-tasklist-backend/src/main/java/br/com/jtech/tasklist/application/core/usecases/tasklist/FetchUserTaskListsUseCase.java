@@ -5,6 +5,7 @@ import br.com.jtech.tasklist.application.core.usecases.tasklist.exceptions.TaskL
 import br.com.jtech.tasklist.application.ports.input.tasklist.FetchUserTaskListsInputGateway;
 import br.com.jtech.tasklist.application.ports.output.tasklist.FetchUserTaskListsOutputGateway;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -17,7 +18,8 @@ import java.util.Set;
 public class FetchUserTaskListsUseCase implements FetchUserTaskListsInputGateway {
 
   private final FetchUserTaskListsOutputGateway outputGateway;
-  
+
+  @Transactional
   public Set<TaskList> fetchTaskLists(String userId) {
     var userExits = this.outputGateway.findUserById(userId)
       .isPresent();

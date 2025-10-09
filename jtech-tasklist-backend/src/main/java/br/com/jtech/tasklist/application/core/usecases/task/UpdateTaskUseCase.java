@@ -7,6 +7,7 @@ import br.com.jtech.tasklist.application.ports.input.task.dtos.UpdateTaskInputDT
 import br.com.jtech.tasklist.application.ports.output.task.UpdateTaskOutputGateway;
 import br.com.jtech.tasklist.config.infra.exceptions.shared.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * class UpdateTaskUseCase
@@ -18,7 +19,7 @@ public class UpdateTaskUseCase implements UpdateTaskInputGateway {
 
   private final UpdateTaskOutputGateway outputGateway;
 
-  @Override
+  @Transactional
   public Task update(UpdateTaskInputDTO dto, String id, String userId) {
     var optional = this.outputGateway.findById(id);
 
