@@ -4,7 +4,7 @@ import br.com.jtech.tasklist.application.core.entities.Task;
 import br.com.jtech.tasklist.application.ports.input.task.dtos.UpdateTaskInputDTO;
 
 /**
- * class GetTaskByIdUseCase
+ * class UpdateTaskInputGateway
  * <p>
  * user rafael.zanetti
  */

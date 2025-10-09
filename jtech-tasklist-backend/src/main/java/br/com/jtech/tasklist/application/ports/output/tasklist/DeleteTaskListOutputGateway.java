@@ -4,6 +4,11 @@ import br.com.jtech.tasklist.application.core.entities.TaskList;
 
 import java.util.Optional;
 
+/**
+ * class DeleteTaskListOutputGateway
+ * <p>
+ * user rafael.zanetti
+ */
 public interface DeleteTaskListOutputGateway {
 
   Optional<TaskList> findById(String id);

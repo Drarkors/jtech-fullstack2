@@ -4,6 +4,7 @@ import br.com.jtech.tasklist.adapters.database.repositories.TaskListRepository;
 import br.com.jtech.tasklist.adapters.database.repositories.TaskRepository;
 import br.com.jtech.tasklist.application.core.entities.Task;
 import br.com.jtech.tasklist.application.core.entities.TaskList;
+import br.com.jtech.tasklist.config.infra.utils.GenId;
 
 import java.util.UUID;
 
@@ -15,6 +16,17 @@ public class TaskFactory {
   public TaskFactory(TaskRepository taskRepository, TaskListRepository taskListRepository) {
     this.taskRepository = taskRepository;
     this.taskListRepository = taskListRepository;
+  }
+
+  public static Task fakeTaskList(TaskList taskList) {
+    return Task.builder()
+      .id(GenId.newId())
+      .name("List")
+      .description("Description")
+      .order(0)
+      .taskListId(taskList.getId())
+      .taskList(taskList)
+      .build();
   }
 
   public Task makeTask(String taskListId) {
